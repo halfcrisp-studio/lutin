@@ -22,7 +22,7 @@ export const UNIVERSES = [
   },
   {
     id: 'princesse',
-    palette: 'princesse', font: 'princess',
+    palette: 'princesse', font: 'cherry',
     decor: true, decorSet: 'conte', placement: 'corners',
     frame: true, frameStyle: 'festive', frameColor: 'auto',
   },

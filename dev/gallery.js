@@ -10,8 +10,8 @@ const base = { ...DEFAULTS, text: example, frame: true, decor: true, signers: ['
 
 const variants = [
   ['Lutins de Noël', { ...base, ...universePatch('lutins') }],
-  ['Journée Grognon', { ...base, ...universePatch('grognon'), signers: ['Grincheux'] }],
-  ['Académie de Magie', { ...base, ...universePatch('magie') }],
+  ['Jour du Grincheux', { ...base, ...universePatch('grognon'), signers: ['Grincheux'] }],
+  ['École de Magie', { ...base, ...universePatch('magie') }],
   ['Idoles contre les Ombres', { ...base, ...universePatch('idoles') }],
   ['Chiots Sauveteurs', { ...base, ...universePatch('chiots'), signers: ['Pompon', 'Caramel', 'Filou'] }],
   ['Héros Araignée', { ...base, ...universePatch('araignee') }],

@@ -3,7 +3,8 @@
 import { idbDelete, idbGetAll, idbPut } from './storage.js';
 
 // group: theme | bubble | hand | reading | classic (sorted with the player on 26/11:
-// theme fonts first, no round fonts, Titan One instead of Luckiest Guy, no Great Vibes).
+// theme fonts first, no round fonts, Titan One instead of Luckiest Guy, no Great Vibes;
+// Princess Sofia replaced by Cherry Swash, more readable).
 // weights: [min, max] for variable fonts; outline: thick enough for the outline mode
 // (for variable fonts, from outlineMin weight); connected: script letters that join;
 // noEllipsis: the font has no "…" glyph (three dots are drawn instead).
@@ -16,7 +17,7 @@ export const FONTS = [
   { id: 'cinzel', label: 'Cinzel Decorative', file: 'cinzel-decorative-700.woff2', group: 'theme', fixedWeight: 700 },
   { id: 'bungee', label: 'Bungee', file: 'bungee-400.woff2', group: 'theme', outline: true },
   { id: 'bangers', label: 'Bangers', file: 'bangers-400.woff2', group: 'theme', outline: true },
-  { id: 'princess', label: 'Princess Sofia', file: 'princess-sofia-400.woff2', group: 'theme' },
+  { id: 'cherry', label: 'Cherry Swash', file: 'cherry-swash-700.woff2', group: 'theme', fixedWeight: 700, noEllipsis: true },
   { id: 'elite', label: 'Special Elite', file: 'special-elite-400.woff2', group: 'theme' },
   { id: 'patrick', label: 'Patrick Hand', file: 'patrick-hand-400.woff2', group: 'hand' },
   { id: 'shadows', label: 'Shadows Into Light', file: 'shadows-into-light-400.woff2', group: 'hand' },

@@ -32,7 +32,7 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Cadre sucre d'orge : rayures en biais dans une bande ; couleur au choix (« comme le texte » = les deux premières couleurs du jeu, ex. rouge et vert pour Sapin) ; en mode contour, les rayures se colorient. Une couleur de cadre peut être choisie pour tous les styles de cadre.
 - Journée Grognon : uniquement des verts (palette, cadre, dessins).
 - Choisir un univers règle tout d'un coup : police, couleurs, cadre (oui/non, style, couleur), habillage (oui/non, dessins, placement).
-- Polices des univers : Titan One (Lutins), Freckle Face (Grognon), Henny Penny (Magie), Bungee (Idoles), Titan One (Chiots), Bangers (Héros Araignée). Toutes ont les accents français ; Henny Penny n'a pas « … » (remplacé par trois points).
+- Polices des univers : Titan One (Lutins), Freckle Face (Grincheux), Henny Penny (Magie), Bungee (Idoles), Titan One (Chiots), Bangers (Héros Araignée). Toutes ont les accents français ; Henny Penny n'a pas « … » (remplacé par trois points).
 
 ## Demandé le 26/11 (3e série)
 - Tri des polices : les thèmes en tête de liste (les préférées) ; Titan One remplace Luckiest Guy (quasi identiques) ; plus de polices rondes (Fredoka reste seulement pour les titres de l'interface) ; manuscrites gardées : Patrick Hand et Shadows Into Light ; Great Vibes retirée (illisible). Restent 15 polices.
@@ -44,6 +44,11 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Journée Grognon : bonnet de Père Noël, chaussette de Noël et hotte, en vert (icônes IconOven, MIT ; la hotte est leur sac en toile sans le motif central).
 - Lutins de Noël : nouveau décor « Lutins » (sapin décoré, hotte, cadeau, étoile) ; l'ancien « Sapins » reste au choix.
 - Nouveaux univers : Princesses et Fées (police Princess Sofia, palette pastel Princesse, couronnes, châteaux, baguettes, cadre festif) et Policiers et Voleurs (police Special Elite, palette Police, gyrophare, empreinte, masque, loupe, clé, voiture, cadre sucre d'orge bleu et rouge).
+
+## Demandé le 26/11 (5e série)
+- Noms : « Jour du Grincheux » (au lieu de Journée Grognon), « École de Magie » (au lieu d'Académie de Magie).
+- Dessins ajoutés : menottes (Policiers et Voleurs), chouette (École de Magie, icône Lucide Lab, ISC), gamelle (Chiots Sauveteurs).
+- Princesses et Fées : Princess Sofia retirée (trop chargée, peu lisible), remplacée par Cherry Swash.
 
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
