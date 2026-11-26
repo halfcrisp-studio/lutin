@@ -12,12 +12,19 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 
 ## Style
 - Polices libres hébergées sur le site (aucun appel à Google Fonts) : bulles, rondes à épaisseur réglable, fines et manuscrites, lecture facile, classiques, thèmes ; plus l'import de sa propre police (gardée dans le navigateur).
-- Alloy Ink : licence « usage personnel, non commercial ». Import par le parent : oui. Intégration au site : seulement avec une licence web du designer (wepfont).
+- Alloy Ink n'est pas intégrée au site (26/11). L'import de police reste ouvert à toute police du parent.
 - Couleurs : noir, une couleur, mes couleurs, et des jeux de couleurs indépendants des univers (sapin, arc-en-ciel, licorne, super-héros…). Contraste d'au moins 3:1 sur blanc pour chaque couleur ; une couleur choisie trop claire est assombrie automatiquement.
 - Couleur par lettre ou par mot, jamais deux fois la même à la suite ; bouton « Mélanger ».
 - Lettres pleines ou en contour à colorier (contour réservé aux polices épaisses).
 - Options : MAJUSCULES, effet écrit à la main.
 - Cadre (oui/non, 4 styles) et habillage (oui/non, 13 jeux de dessins, 3 placements), au trait, sans aplats ; les dessins viennent des icônes Lucide (ISC), la toile d'araignée est dessinée par le code.
+
+## Validé le 26/11
+- Domaine : choisi plus tard ; le site reste sur halfcrisp-studio.github.io/lutin en attendant.
+- Noms des univers gardés : Lutins de Noël, Journée Grognon, Académie de Magie, Idoles contre les Ombres, Chiots Sauveteurs, Héros Araignée.
+- Réglages par défaut gardés : couleur par lettre, effet main, habillage « Sapins » dans les coins, sans cadre, taille automatique.
+- Texte d'exemple gardé (« Coucou les enfants ! … », signé « Lutin Farceur »).
+- Contact des mentions légales : page Issues du dépôt. Code : tous droits réservés.
 
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.

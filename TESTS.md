@@ -14,4 +14,4 @@ Vérifié sans appareil : rendu des 6 univers et des options (planche `dev/galle
 - Lettres en contour : le tracé est assez épais pour colorier.
 
 ## Séance 3 : polices (5 min)
-- Importer Alloy Ink (.ttf ou .otf) : elle apparaît dans « Mes polices », elle est toujours là au retour sur le site.
+- Importer une police (.ttf ou .otf) : elle apparaît dans « Mes polices », elle est toujours là au retour sur le site.
