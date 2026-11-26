@@ -25,6 +25,7 @@ Puis ouvrir http://127.0.0.1:8793/. Les modules JavaScript ne se chargent pas en
 | `js/palettes.js`, `js/universes.js` | Jeux de couleurs et univers (simple configuration) |
 | `js/templates.js` | Modèles de messages à variantes (prévu pour la future banque de messages) |
 | `js/strings-fr.js` | Textes de l'interface (l'anglais viendra dans un fichier jumeau) |
+| `js/theme.js` | Mode jour (« Papier crème ») / nuit (« Nuit de Noël ») : suit l'appareil, bouton pour forcer |
 | `fonts/` | Polices woff2 (sous-ensemble latin) et leurs licences |
 | `tools/` | Scripts de récupération des polices et des icônes |
 | `dev/tests.html` | Vérifications de la logique clé (ouvrir dans un navigateur : « ALL OK ») |

@@ -135,6 +135,9 @@ export default {
   'image.download': 'Télécharger',
   'image.close': 'Fermer',
 
+  'theme.toDark': 'Passer en mode nuit',
+  'theme.toLight': 'Passer en mode jour',
+
   'footer.privacy': 'Confidentialité',
   'footer.legal': 'Mentions légales',
   'footer.credits': 'Crédits',

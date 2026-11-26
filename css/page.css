@@ -1,5 +1,9 @@
-/* Simple text pages (privacy, legal notice, credits). */
+/* Simple text pages (privacy, legal notice, credits): same day / night looks as the app. */
 :root { --bg: #faf6f0; --ink: #2a2522; --muted: #6d645c; --accent: #c62828; --line: #e7ddd1; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) { --bg: #13213f; --ink: #e9edf7; --muted: #c3cbe2; --accent: #f2c14e; --line: #2b3d66; }
+}
+:root[data-theme='dark'] { --bg: #13213f; --ink: #e9edf7; --muted: #c3cbe2; --accent: #f2c14e; --line: #2b3d66; }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
 main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }

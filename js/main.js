@@ -5,6 +5,7 @@ import { buildScene, drawScene } from './render.js';
 import { canShareFile, download, notePngBlob, prefersShare, printSheet, renderNoteCanvas, shareFile } from './sheet.js';
 import { initUI, refreshFonts, syncAll } from './ui.js';
 import { DPI } from './formats.js';
+import { initThemeToggle } from './theme.js';
 
 const preview = document.getElementById('preview');
 const previewCtx = preview.getContext('2d');
@@ -123,6 +124,7 @@ function init() {
   preview.setAttribute('aria-label', t('preview.label'));
   overflowEl.textContent = t('layout.overflow');
 
+  initThemeToggle(document.getElementById('theme-toggle'));
   initUI(document.getElementById('controls'), { currentSizePt });
   subscribe(() => {
     syncAll();

@@ -5,7 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Lutin · petits mots magiques à imprimer</title>
   <meta name="description" content="Crée en quelques secondes un message de lutin à imprimer : police ballon, lettres colorées, décor de Noël. Gratuit, sans compte, rien n'est envoyé.">
-  <meta name="theme-color" content="#c62828">
+  <meta name="theme-color" content="#faf6f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#13213f" media="(prefers-color-scheme: dark)">
+  <script>
+    // Apply a saved day/night choice before the first paint (no flash).
+    try {
+      var savedTheme = JSON.parse(localStorage.getItem('lutin.v1.theme'));
+      if (savedTheme === 'light' || savedTheme === 'dark') document.documentElement.dataset.theme = savedTheme;
+    } catch (e) {}
+  </script>
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="preload" href="fonts/luckiest-guy-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/app.css">
@@ -15,6 +23,7 @@
     <header class="app-header">
       <h1 class="app-title" data-i18n="app.title">Lutin</h1>
       <p class="app-tagline" data-i18n="app.tagline">Des petits mots magiques à imprimer</p>
+      <button type="button" class="theme-toggle" id="theme-toggle"></button>
     </header>
 
     <main class="layout">

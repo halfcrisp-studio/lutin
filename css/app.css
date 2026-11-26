@@ -1,22 +1,96 @@
-/* Provisional look (to be validated): warm paper background, festive red accent. */
+/* Light mode = "Papier crème" (style A), dark mode = "Nuit de Noël" (style B).
+   Cards stay white in both modes; only the page around them changes. */
 @font-face {
   font-family: 'Lutin UI';
   src: url('../fonts/fredoka-vf.woff2') format('woff2');
   font-weight: 300 700;
   font-display: swap;
 }
+@font-face {
+  font-family: 'Lutin Night';
+  src: url('../fonts/mountains-of-christmas-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
 
 :root {
   --bg: #faf6f0;
-  --card: #ffffff;
+  --bg-image: none;
   --ink: #2a2522;
   --muted: #6d645c;
+  --card: #ffffff;
+  --card-ink: #2a2522;
+  --card-muted: #6d645c;
   --line: #e7ddd1;
   --accent: #c62828;
   --accent-strong: #9f1d1d;
   --accent-soft: #fdeceb;
+  --on: #c62828;
+  --on-soft: #fdeceb;
+  --title-font: 'Lutin UI', system-ui, sans-serif;
+  --title-color: #c62828;
+  --title-size: 32px;
+  --bar-bg: rgba(255, 255, 255, 0.95);
+  --bar-line: #e7ddd1;
+  --secondary-bg: #ffffff;
+  --secondary-ink: #9f1d1d;
+  --secondary-line: #c62828;
+  --secondary-hover: #fdeceb;
+  --paper-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 10px 30px rgba(70, 40, 20, 0.14);
   --focus: #1565c0;
   --radius: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg: #13213f;
+    --bg-image: radial-gradient(1.4px 1.4px at 12% 6%, #ffffff 99%, transparent), radial-gradient(1px 1px at 78% 4%, #ffffff 99%, transparent), radial-gradient(1.6px 1.6px at 92% 18%, #ffe9a8 99%, transparent), radial-gradient(1px 1px at 5% 32%, #ffffff 99%, transparent), radial-gradient(1.4px 1.4px at 50% 2%, #ffffff 99%, transparent), radial-gradient(1px 1px at 32% 14%, #ffe9a8 99%, transparent), radial-gradient(1px 1px at 97% 48%, #ffffff 99%, transparent), radial-gradient(1.4px 1.4px at 2% 62%, #ffffff 99%, transparent), radial-gradient(1px 1px at 64% 92%, #ffe9a8 99%, transparent), radial-gradient(1.2px 1.2px at 22% 84%, #ffffff 99%, transparent);
+    --ink: #e9edf7;
+    --muted: #c3cbe2;
+    --card-ink: #1d2340;
+    --card-muted: #5b6382;
+    --line: #dfe3ef;
+    --accent: #cf3a2e;
+    --accent-strong: #a8261c;
+    --accent-soft: #fdeceb;
+    --on: #c99417;
+    --on-soft: #fff4d6;
+    --title-font: 'Lutin Night', Georgia, serif;
+    --title-color: #f2c14e;
+    --title-size: 38px;
+    --bar-bg: #0f1a33;
+    --bar-line: #22325a;
+    --secondary-bg: transparent;
+    --secondary-ink: #f2c14e;
+    --secondary-line: #f2c14e;
+    --secondary-hover: rgba(242, 193, 78, 0.12);
+    --paper-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 44px rgba(242, 193, 78, 0.32);
+    --focus: #8ab4ff;
+  }
+}
+:root[data-theme='dark'] {
+  --bg: #13213f;
+  --bg-image: radial-gradient(1.4px 1.4px at 12% 6%, #ffffff 99%, transparent), radial-gradient(1px 1px at 78% 4%, #ffffff 99%, transparent), radial-gradient(1.6px 1.6px at 92% 18%, #ffe9a8 99%, transparent), radial-gradient(1px 1px at 5% 32%, #ffffff 99%, transparent), radial-gradient(1.4px 1.4px at 50% 2%, #ffffff 99%, transparent), radial-gradient(1px 1px at 32% 14%, #ffe9a8 99%, transparent), radial-gradient(1px 1px at 97% 48%, #ffffff 99%, transparent), radial-gradient(1.4px 1.4px at 2% 62%, #ffffff 99%, transparent), radial-gradient(1px 1px at 64% 92%, #ffe9a8 99%, transparent), radial-gradient(1.2px 1.2px at 22% 84%, #ffffff 99%, transparent);
+  --ink: #e9edf7;
+  --muted: #c3cbe2;
+  --card-ink: #1d2340;
+  --card-muted: #5b6382;
+  --line: #dfe3ef;
+  --accent: #cf3a2e;
+  --accent-strong: #a8261c;
+  --accent-soft: #fdeceb;
+  --on: #c99417;
+  --on-soft: #fff4d6;
+  --title-font: 'Lutin Night', Georgia, serif;
+  --title-color: #f2c14e;
+  --title-size: 38px;
+  --bar-bg: #0f1a33;
+  --bar-line: #22325a;
+  --secondary-bg: transparent;
+  --secondary-ink: #f2c14e;
+  --secondary-line: #f2c14e;
+  --secondary-hover: rgba(242, 193, 78, 0.12);
+  --paper-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35), 0 0 44px rgba(242, 193, 78, 0.32);
+  --focus: #8ab4ff;
 }
 
 * { box-sizing: border-box; }
@@ -25,16 +99,21 @@ body {
   margin: 0;
   font: 16px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   color: var(--ink);
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image: var(--bg-image);
+  background-attachment: fixed;
 }
 button, input, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 [hidden] { display: none !important; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-.app-header { max-width: 1200px; margin: 0 auto; padding: 18px 16px 10px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
-.app-title { margin: 0; font-family: 'Lutin UI', system-ui, sans-serif; font-weight: 700; font-size: 32px; color: var(--accent); letter-spacing: 0.5px; }
-.app-tagline { margin: 0; color: var(--muted); }
+.app-header { max-width: 1200px; margin: 0 auto; padding: 18px 16px 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+.app-title { margin: 0; font-family: var(--title-font); font-weight: 700; font-size: var(--title-size); line-height: 1.1; color: var(--title-color); letter-spacing: 0.5px; }
+.app-tagline { margin: 0; color: var(--muted); flex: 1; min-width: 12em; }
+.theme-toggle { margin-left: auto; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--bar-line); background: transparent; color: var(--title-color); cursor: pointer; display: grid; place-items: center; }
+.theme-toggle:hover { background: var(--secondary-hover); }
+.theme-toggle svg { width: 22px; height: 22px; }
 
 .layout { max-width: 1200px; margin: 0 auto; padding: 0 16px 24px; display: grid; gap: 16px; }
 @media (min-width: 900px) {
@@ -43,10 +122,12 @@ button, input, textarea { font: inherit; color: inherit; }
 }
 
 .paper-wrap { display: flex; justify-content: center; }
-#preview { display: block; background: #fff; border-radius: 3px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08), 0 10px 30px rgba(70, 40, 20, 0.14); }
+#preview { display: block; background: #fff; border-radius: 3px; box-shadow: var(--paper-shadow); }
 .warn { margin: 12px auto 0; max-width: 520px; padding: 10px 14px; border-radius: 10px; background: #fff4e5; color: #8a4b00; border: 1px solid #f3d3a5; font-size: 14px; }
 
 /* Cards */
+/* Inside white surfaces, page text tokens switch to the card ones. */
+.card, .image-dialog { --ink: var(--card-ink); --muted: var(--card-muted); --focus: #1565c0; color: var(--ink); }
 .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 12px; }
 .card > summary { list-style: none; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; font-family: 'Lutin UI', system-ui, sans-serif; font-weight: 600; font-size: 18px; }
 .card > summary::-webkit-details-marker { display: none; }
@@ -77,9 +158,9 @@ button, input, textarea { font: inherit; color: inherit; }
 .btn-quiet { border-color: transparent; background: transparent; color: var(--muted); padding-inline: 10px; }
 .btn-quiet:hover { background: #f4eee7; border-color: transparent; }
 [aria-pressed='true'].chip, [aria-pressed='true'].seg-btn, [aria-pressed='true'].font-btn, [aria-pressed='true'].palette-btn, [aria-pressed='true'].set-btn {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  border-color: var(--on);
+  background: var(--on-soft);
+  box-shadow: inset 0 0 0 1px var(--on);
 }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .seg { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -143,20 +224,20 @@ button, input, textarea { font: inherit; color: inherit; }
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
   display: flex; justify-content: center; gap: 10px;
   padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-  background: rgba(255, 255, 255, 0.95);
-  border-top: 1px solid var(--line);
+  background: var(--bar-bg);
+  border-top: 1px solid var(--bar-line);
   backdrop-filter: blur(8px);
 }
 .btn-action { flex: 1; max-width: 300px; min-height: 50px; border-radius: 14px; font-weight: 700; font-size: 16px; cursor: pointer; border: 1px solid var(--accent); }
 .btn-primary { background: var(--accent); color: #fff; }
 .btn-primary:hover { background: var(--accent-strong); }
-.btn-secondary { background: #fff; color: var(--accent-strong); }
-.btn-secondary:hover { background: var(--accent-soft); }
+.btn-secondary { background: var(--secondary-bg); color: var(--secondary-ink); border-color: var(--secondary-line); }
+.btn-secondary:hover { background: var(--secondary-hover); }
 
 .btn-action:disabled { opacity: 0.6; cursor: progress; }
 
 /* "Image ready" fallback dialog (phones that refuse to share without a fresh tap) */
-.image-dialog { width: min(92vw, 420px); border: 0; border-radius: 16px; padding: 18px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+.image-dialog { width: min(92vw, 420px); border: 0; border-radius: 16px; padding: 18px; background: var(--card); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
 .image-dialog::backdrop { background: rgba(30, 20, 10, 0.45); }
 .image-dialog h2 { margin: 0 0 12px; font-family: 'Lutin UI', system-ui, sans-serif; font-size: 20px; }
 .image-dialog img { display: block; width: 100%; max-height: 55vh; object-fit: contain; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 10px; }

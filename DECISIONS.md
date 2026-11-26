@@ -25,6 +25,7 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Réglages par défaut gardés : couleur par lettre, effet main, habillage « Sapins » dans les coins, sans cadre, taille automatique.
 - Texte d'exemple gardé (« Coucou les enfants ! … », signé « Lutin Farceur »).
 - Contact des mentions légales : page Issues du dépôt. Code : tous droits réservés.
+- Apparence (planche du 26/11) : mode clair = style A « Papier crème » (fond papier, rouge Noël, titre Fredoka) ; mode sombre = style B « Nuit de Noël » (bleu nuit étoilé, touches dorées, titre Mountains of Christmas, feuille qui brille). Le site suit le réglage de l'appareil ; les cartes de réglages restent blanches dans les deux modes. Les pages légales suivent aussi les deux modes.
 
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
