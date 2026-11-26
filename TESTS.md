@@ -1,0 +1,17 @@
+# Tests à faire
+
+Vérifié sans appareil : rendu des 6 univers et des options (planche `dev/gallery.html`), mise en page sur écran de téléphone, impression PDF d'Edge (une seule page A4, sans marge, A5 en deux exemplaires), vérifications de `dev/tests.html`.
+
+## Séance 1 : téléphone (10 min)
+- iPhone, Safari : ouvrir le site, ajouter deux lutins, écrire un message, toucher « Imprimer » → la fenêtre d'impression s'ouvre (AirPrint) et l'aperçu montre une seule feuille.
+- iPhone : « Enregistrer l'image » → la feuille de partage s'ouvre, « Enregistrer l'image » la met dans Photos.
+- Android, Chrome : les deux mêmes boutons.
+- Fermer et rouvrir le site : les lutins favoris (étoile) et le dernier message sont toujours là.
+
+## Séance 2 : vraie imprimante (10 min)
+- A4 portrait avec cadre festif : rien n'est rogné sur les bords, pas d'URL ni de date imprimées.
+- A5 en deux exemplaires : les deux moitiés se découpent au trait de coupe.
+- Lettres en contour : le tracé est assez épais pour colorier.
+
+## Séance 3 : polices (5 min)
+- Importer Alloy Ink (.ttf ou .otf) : elle apparaît dans « Mes polices », elle est toujours là au retour sur le site.

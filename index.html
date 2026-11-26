@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lutin · petits mots magiques à imprimer</title>
+  <meta name="description" content="Crée en quelques secondes un message de lutin à imprimer : police ballon, lettres colorées, décor de Noël. Gratuit, sans compte, rien n'est envoyé.">
+  <meta name="theme-color" content="#c62828">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/luckiest-guy-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="app-title" data-i18n="app.title">Lutin</h1>
+      <p class="app-tagline" data-i18n="app.tagline">Des petits mots magiques à imprimer</p>
+    </header>
+
+    <main class="layout">
+      <section class="preview-col">
+        <div class="paper-wrap" id="paper-wrap">
+          <canvas id="preview" role="img" aria-label="Aperçu"></canvas>
+        </div>
+        <p id="overflow" class="warn" hidden></p>
+      </section>
+      <section class="controls" id="controls" aria-label="Réglages"></section>
+    </main>
+
+    <footer class="app-footer">
+      <p data-i18n="footer.note">Rien n'est envoyé : tout se passe dans ton navigateur.</p>
+      <p>
+        <a href="confidentialite.html" data-i18n="footer.privacy">Confidentialité</a> ·
+        <a href="mentions-legales.html" data-i18n="footer.legal">Mentions légales</a> ·
+        <a href="credits.html" data-i18n="footer.credits">Crédits</a>
+      </p>
+    </footer>
+  </div>
+
+  <div class="action-bar">
+    <button type="button" class="btn-action btn-primary" id="btn-print" data-i18n="action.print">Imprimer</button>
+    <button type="button" class="btn-action btn-secondary" id="btn-image" data-i18n="action.image">Enregistrer l'image</button>
+  </div>
+
+  <div id="print-root" aria-hidden="true"><canvas id="print-canvas" width="1" height="1"></canvas></div>
+
+  <noscript><p class="warn">Cette page a besoin de JavaScript pour dessiner la feuille.</p></noscript>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

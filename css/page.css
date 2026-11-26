@@ -1,0 +1,12 @@
+/* Simple text pages (privacy, legal notice, credits). */
+:root { --bg: #faf6f0; --ink: #2a2522; --muted: #6d645c; --accent: #c62828; --line: #e7ddd1; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { color: var(--accent); font-size: 28px; line-height: 1.2; margin: 8px 0 20px; }
+h2 { font-size: 19px; margin: 28px 0 8px; }
+a { color: var(--accent); }
+.back { display: inline-block; margin-bottom: 8px; text-decoration: none; font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { text-align: left; padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.muted { color: var(--muted); font-size: 14px; }

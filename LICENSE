@@ -1,0 +1,9 @@
+Copyright (c) 2026 Jetro974. Tous droits réservés.
+
+Le code de ce dépôt n'est pas sous licence libre : il est publié pour être consulté,
+pas pour être réutilisé ou redistribué sans autorisation. Les suggestions et
+contributions sont les bienvenues par les issues du dépôt.
+
+Les éléments tiers gardent leur propre licence :
+- polices du dossier fonts/ : SIL Open Font License 1.1 ou Apache 2.0 (textes dans fonts/licenses/) ;
+- icônes Lucide converties dans js/decor-icons.js : licence ISC (fonts/licenses/lucide-icons.txt).
