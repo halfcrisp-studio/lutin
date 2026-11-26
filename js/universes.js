@@ -5,7 +5,7 @@ export const UNIVERSES = [
   {
     id: 'lutins',
     palette: 'sapin', font: 'titan',
-    decor: true, decorSet: 'sapins', placement: 'corners',
+    decor: true, decorSet: 'lutins', placement: 'corners',
     frame: false, frameStyle: 'candy', frameColor: 'auto',
   },
   {
@@ -19,6 +19,12 @@ export const UNIVERSES = [
     palette: 'magie', font: 'hennypenny',
     decor: true, decorSet: 'magie', placement: 'corners',
     frame: true, frameStyle: 'double', frameColor: 'auto',
+  },
+  {
+    id: 'princesse',
+    palette: 'princesse', font: 'princess',
+    decor: true, decorSet: 'conte', placement: 'corners',
+    frame: true, frameStyle: 'festive', frameColor: 'auto',
   },
   {
     id: 'idoles',
@@ -37,6 +43,12 @@ export const UNIVERSES = [
     palette: 'araignee', font: 'bangers',
     decor: true, decorSet: 'toile', placement: 'corners',
     frame: true, frameStyle: 'simple', frameColor: 'auto',
+  },
+  {
+    id: 'police',
+    palette: 'police', font: 'elite',
+    decor: true, decorSet: 'police', placement: 'corners',
+    frame: true, frameStyle: 'candy', frameColor: 'auto',
   },
 ];
 

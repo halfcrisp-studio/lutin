@@ -15,6 +15,8 @@ const variants = [
   ['Idoles contre les Ombres', { ...base, ...universePatch('idoles') }],
   ['Chiots Sauveteurs', { ...base, ...universePatch('chiots'), signers: ['Pompon', 'Caramel', 'Filou'] }],
   ['Héros Araignée', { ...base, ...universePatch('araignee') }],
+  ['Princesses et Fées', { ...base, ...universePatch('princesse'), signers: ['Fée Paillette'] }],
+  ['Policiers et Voleurs', { ...base, ...universePatch('police'), signers: ['Inspecteur Lutin'] }],
   ["Contour à colorier, cadre sucre d'orge", { ...base, outline: true, frameStyle: 'candy' }],
   ["Cadre sucre d'orge couleurs du texte", { ...base, frameStyle: 'candy', frameColor: 'auto' }],
   ["Cadre sucre d'orge bleu, paysage", { ...base, orientation: 'landscape', frameStyle: 'candy', frameColor: '#1565C0', paletteId: 'givre', decorSet: 'flocons' }],

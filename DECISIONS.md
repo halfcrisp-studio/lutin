@@ -39,6 +39,12 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - « Utiliser ma propre police » est rangé dans un petit volet replié en bas de « Style du texte » (on cliquait dessus par erreur).
 - Palettes plus variées, rangées par familles : Simples, Festives, Pastels (Pastel, Macarons, Guimauve), Vives (+ Océan, Forêt, Tropical, Citrouille, Chocolat), Univers. Les pastels gardent leur couleur claire et sont bordés d'un trait plus foncé de la même teinte (contraste du trait ≥ 3:1) ; dessins et cadre prennent ces teintes foncées, les rayures du sucre d'orge restent pastel.
 
+## Demandé le 26/11 (4e série)
+- Académie de Magie : livres et grimoires dans le décor (livre ouvert, grimoire, parchemin, plume, fiole, baguette).
+- Journée Grognon : bonnet de Père Noël, chaussette de Noël et hotte, en vert (icônes IconOven, MIT ; la hotte est leur sac en toile sans le motif central).
+- Lutins de Noël : nouveau décor « Lutins » (sapin décoré, hotte, cadeau, étoile) ; l'ancien « Sapins » reste au choix.
+- Nouveaux univers : Princesses et Fées (police Princess Sofia, palette pastel Princesse, couronnes, châteaux, baguettes, cadre festif) et Policiers et Voleurs (police Special Elite, palette Police, gyrophare, empreinte, masque, loupe, clé, voiture, cadre sucre d'orge bleu et rouge).
+
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
 - Un seul calcul de mise en page à 300 dpi : aperçu, impression et PNG sont la même scène, donc les mêmes retours à la ligne. Les mots ne sont jamais coupés ; la ponctuation française espacée reste collée à son mot ; un nom de lutin n'est jamais coupé.

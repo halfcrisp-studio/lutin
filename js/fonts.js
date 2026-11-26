@@ -16,6 +16,8 @@ export const FONTS = [
   { id: 'cinzel', label: 'Cinzel Decorative', file: 'cinzel-decorative-700.woff2', group: 'theme', fixedWeight: 700 },
   { id: 'bungee', label: 'Bungee', file: 'bungee-400.woff2', group: 'theme', outline: true },
   { id: 'bangers', label: 'Bangers', file: 'bangers-400.woff2', group: 'theme', outline: true },
+  { id: 'princess', label: 'Princess Sofia', file: 'princess-sofia-400.woff2', group: 'theme' },
+  { id: 'elite', label: 'Special Elite', file: 'special-elite-400.woff2', group: 'theme' },
   { id: 'patrick', label: 'Patrick Hand', file: 'patrick-hand-400.woff2', group: 'hand' },
   { id: 'shadows', label: 'Shadows Into Light', file: 'shadows-into-light-400.woff2', group: 'hand' },
   { id: 'andika', label: 'Andika', file: 'andika-400.woff2', group: 'reading' },

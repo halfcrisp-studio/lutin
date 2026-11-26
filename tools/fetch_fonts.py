@@ -28,6 +28,8 @@ FONTS = [
     ("freckle-face", 400),
     ("henny-penny", 400),
     ("bungee", 400),
+    ("princess-sofia", 400),
+    ("special-elite", 400),
 ]
 
 

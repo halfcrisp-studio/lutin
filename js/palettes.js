@@ -35,6 +35,8 @@ export const PALETTES = [
   { id: 'magie', group: 'universe', colors: ['#7B1E2B', '#9C6B00', '#1A237E', '#00695C'] },
   { id: 'idoles', group: 'universe', colors: ['#7B1FA2', '#D6007A', '#00838F', INK_BLACK] },
   { id: 'chiots', group: 'universe', colors: ['#1E40AF', '#D32F2F', '#E65100', '#B45309'] },
+  { id: 'princesse', group: 'universe', pastel: true, colors: ['#F48FB1', '#CE93D8', '#FFD54F', '#90CAF9'] },
+  { id: 'police', group: 'universe', colors: ['#0D47A1', '#C62828', '#1565C0', INK_BLACK] },
 ];
 
 export function getPalette(id) {
