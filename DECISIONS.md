@@ -48,7 +48,7 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 ## Demandé le 26/11 (5e série)
 - Noms : « Jour du Grincheux » (au lieu de Journée Grognon), « École de Magie » (au lieu d'Académie de Magie).
 - Dessins ajoutés : menottes (Policiers et Voleurs), chouette (École de Magie, icône Lucide Lab, ISC), gamelle (Chiots Sauveteurs).
-- Princesses et Fées : Princess Sofia retirée (trop chargée, peu lisible), remplacée par Cherry Swash.
+- Princesses et Fées : Princess Sofia retirée (trop chargée, peu lisible) ; police « royale et lisible » : Yeseva One (Cherry Swash essayée puis retirée).
 
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
