@@ -7,5 +7,11 @@
 
 4. **Pastels** (provisoire) : couleur claire + trait plus foncé de la même teinte, pour rester lisible. Options : a) garder ; b) pastels un peu plus soutenus sans trait.
 
+## Pistes pour élargir (proposées le 26/11, rien de choisi)
+- Univers toute l'année : Petite Souris, Anniversaire, Lapin de Pâques, Halloween, Saint-Nicolas, Galette des rois, Poisson d'avril ; thèmes d'enfants : Pirates, Dinosaures, Espace, Sirènes, Dragons et chevaliers.
+- Fonctions : partage d'un modèle par lien (sans serveur), chasse au trésor (indices numérotés à découper), idée de bêtise + mot du soir, mode hors ligne, version anglaise (US Letter).
+- Autres usages : mot de boîte à goûter, diplômes, bons cadeaux, réponse du Père Noël.
+- Reco : Petite Souris, Anniversaire, Pirates et partage par lien d'abord ; puis chasse au trésor ; puis banque d'idées et de messages.
+
 ## Tranché
 Voir [DECISIONS.md](DECISIONS.md).
