@@ -7,6 +7,10 @@
 
 4. **Pastels** (provisoire) : couleur claire + trait plus foncé de la même teinte, pour rester lisible. Options : a) garder ; b) pastels un peu plus soutenus sans trait.
 
+5. **Format des invitations et petits printables** : la règle « A5 minimum » vaut pour les mots. Pour les invitations (carte ~10 × 15 cm, 4 par A4) et les petits printables (billets, panneaux, bons), autoriser plusieurs petits formats par feuille ? Reco : oui, seulement pour ces modèles.
+6. **Prénom de l'enfant dans l'invitation** : champs prénom, âge, date, adresse non mémorisés dans le navigateur (rien n'est jamais envoyé). Reco : oui.
+7. **Printables lutins (V1.2)** : ordre proposé : billet d'arrivée + certificat, avis de recherche, mini-panneaux, bons du lutin ; puis départ du 24 (lettre + diplôme), grille des 24 soirs pour les parents, accessoires taille lutin.
+
 ## Pistes pour élargir (proposées le 26/11, rien de choisi)
 - Univers toute l'année : Petite Souris, Anniversaire, Lapin de Pâques, Halloween, Saint-Nicolas, Galette des rois, Poisson d'avril ; thèmes d'enfants : Pirates, Dinosaures, Espace, Sirènes, Dragons et chevaliers.
 - Fonctions : partage d'un modèle par lien (sans serveur), chasse au trésor (indices numérotés à découper), idée de bêtise + mot du soir, mode hors ligne, version anglaise (US Letter).

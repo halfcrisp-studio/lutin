@@ -50,6 +50,11 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Dessins ajoutés : menottes (Policiers et Voleurs), chouette (École de Magie, icône Lucide Lab, ISC), gamelle (Chiots Sauveteurs).
 - Princesses et Fées : Princess Sofia retirée (trop chargée, peu lisible) ; police « royale et lisible » : Yeseva One (Cherry Swash essayée puis retirée).
 
+## Feuille de route (26/11)
+- Prochain : l'invitation d'anniversaire (gardée parmi les pistes).
+- V1.1 : la chasse au trésor (indices numérotés, planche à découper).
+- Ensuite : printables pour les lutins, sur la même planche à découper (proposition, à valider dans A_TRANCHER.md).
+
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
 - Un seul calcul de mise en page à 300 dpi : aperçu, impression et PNG sont la même scène, donc les mêmes retours à la ligne. Les mots ne sont jamais coupés ; la ponctuation française espacée reste collée à son mot ; un nom de lutin n'est jamais coupé.
