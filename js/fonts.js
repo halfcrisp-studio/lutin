@@ -7,18 +7,23 @@ import { idbDelete, idbGetAll, idbPut } from './storage.js';
 // princesses: Yeseva One, royal and readable).
 // weights: [min, max] for variable fonts; outline: thick enough for the outline mode
 // (for variable fonts, from outlineMin weight); connected: script letters that join;
-// noEllipsis: the font has no "…" glyph (three dots are drawn instead).
+// replace: characters the font lacks, drawn with a close substitute ("…" -> "...").
 export const FONTS = [
   { id: 'titan', label: 'Titan One', file: 'titan-one-400.woff2', group: 'bubble', outline: true },
   { id: 'chewy', label: 'Chewy', file: 'chewy-400.woff2', group: 'bubble', outline: true },
   { id: 'christmas', label: 'Mountains of Christmas', file: 'mountains-of-christmas-700.woff2', group: 'theme', fixedWeight: 700 },
   { id: 'freckle', label: 'Freckle Face', file: 'freckle-face-400.woff2', group: 'theme', outline: true },
-  { id: 'hennypenny', label: 'Henny Penny', file: 'henny-penny-400.woff2', group: 'theme', noEllipsis: true },
+  { id: 'hennypenny', label: 'Henny Penny', file: 'henny-penny-400.woff2', group: 'theme', replace: { '…': '...' } },
   { id: 'cinzel', label: 'Cinzel Decorative', file: 'cinzel-decorative-700.woff2', group: 'theme', fixedWeight: 700 },
   { id: 'bungee', label: 'Bungee', file: 'bungee-400.woff2', group: 'theme', outline: true },
   { id: 'bangers', label: 'Bangers', file: 'bangers-400.woff2', group: 'theme', outline: true },
   { id: 'yeseva', label: 'Yeseva One', file: 'yeseva-one-400.woff2', group: 'theme' },
   { id: 'elite', label: 'Special Elite', file: 'special-elite-400.woff2', group: 'theme' },
+  { id: 'pirata', label: 'Pirata One', file: 'pirata-one-400.woff2', group: 'theme' },
+  { id: 'sniglet', label: 'Sniglet', file: 'sniglet-800.woff2', group: 'theme', fixedWeight: 800, outline: true },
+  { id: 'orbitron', label: 'Orbitron', file: 'orbitron-700.woff2', group: 'theme', fixedWeight: 700, replace: { '«': '"', '»': '"' } },
+  { id: 'righteous', label: 'Righteous', file: 'righteous-400.woff2', group: 'theme', outline: true },
+  { id: 'almendra', label: 'Almendra', file: 'almendra-700.woff2', group: 'theme', fixedWeight: 700 },
   { id: 'patrick', label: 'Patrick Hand', file: 'patrick-hand-400.woff2', group: 'hand' },
   { id: 'shadows', label: 'Shadows Into Light', file: 'shadows-into-light-400.woff2', group: 'hand' },
   { id: 'andika', label: 'Andika', file: 'andika-400.woff2', group: 'reading' },

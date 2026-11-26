@@ -1,6 +1,6 @@
 // Frames and decorations: line drawings only (no solid areas), to save ink and
 // to stay colorable. Geometry is built in sheet units, drawing works at any scale.
-import { ICONS } from './decor-icons.js';
+import { ICON_BOX, ICONS } from './decor-icons.js';
 import { colorSequence, mulberry32 } from './color.js';
 import { MM } from './formats.js';
 
@@ -18,6 +18,14 @@ export const DECOR_SETS = [
   { id: 'pattes', icons: ['paw-print', 'pet-bowl', 'bone', 'heart'] },
   { id: 'heros', icons: ['zap', 'shield', 'star'] },
   { id: 'police', icons: ['siren', 'handcuffs', 'venetian-mask', 'fingerprint', 'search', 'key-round', 'car-front'] },
+  { id: 'pyjama', icons: ['pillow', 'teddy-bear', 'moon-star', 'bed', 'star', 'cloud'] },
+  { id: 'deguisee', icons: ['venetian-mask', 'crown', 'wand-sparkles', 'party-popper', 'sparkles'] },
+  { id: 'boum', icons: ['disco-ball', 'music', 'mic-vocal', 'disc-3', 'sparkles'] },
+  { id: 'pirates', icons: ['pirate-flag', 'treasure-chest', 'anchor', 'skull', 'compass', 'tree-palm', 'map'] },
+  { id: 'dino', icons: ['dinosaur', 'dino-egg', 'volcano', 'leaf'] },
+  { id: 'espace', icons: ['rocket', 'planet', 'ufo', 'astronaut', 'star', 'moon-star'] },
+  { id: 'sirenes', icons: ['sea-shell', 'starfish', 'fish', 'waves', 'shell', 'gem'] },
+  { id: 'chevaliers', icons: ['dragon', 'sword', 'castle', 'shield', 'crown', 'flag'] },
   { id: 'toile', icons: ['star'], web: true },
   { id: 'licorne', icons: ['rainbow', 'heart', 'sparkles', 'gem', 'cloud'] },
   { id: 'bonbons', icons: ['lollipop', 'candy-cane', 'cookie', 'heart'] },
@@ -197,9 +205,10 @@ export function drawIcon(ctx, item) {
   }
   ctx.translate(item.x, item.y);
   if (item.rot) ctx.rotate(item.rot);
-  const k = item.size / 24;
+  const [left, top, w, h] = ICON_BOX[item.icon] || [0, 0, 24, 24];
+  const k = item.size / Math.max(w, h);
   ctx.scale(k, k);
-  ctx.translate(-12, -12);
+  ctx.translate(-(left + w / 2), -(top + h / 2));
   ctx.lineWidth = item.stroke || ICON_STROKE;
   ctx.strokeStyle = item.color;
   ctx.lineCap = 'round';

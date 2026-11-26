@@ -1,9 +1,10 @@
 // Controls panel. Built once; each control re-syncs from the state on change.
 import { t } from './i18n.js';
-import { SIZE_MAX_PT, SIZE_MIN_PT, addElf, messageText, removeElf, setInvitationField, setMode, state, toggleSigner, update } from './state.js';
+import { SIZE_MAX_PT, SIZE_MIN_PT, addElf, messageText, removeElf, setInvitationField, setMode, setOccasion, state, toggleSigner, update } from './state.js';
+import { OCCASIONS } from './invitation.js';
 import { FORMATS_BY_MODE, SHEET_CELLS } from './formats.js';
 import { formatNames } from './signature.js';
-import { UNIVERSES, universePatch } from './universes.js';
+import { UNIVERSES, UNIVERSE_GROUPS, universePatch } from './universes.js';
 import { PALETTES, PALETTE_GROUPS, pastelLine, resolveColors, resolveInk } from './palettes.js';
 import {
   DEFAULT_FONT_ID,
@@ -119,12 +120,17 @@ function showIf(el, cond) {
 // ---------- sections ----------
 
 function universeSection() {
-  const grid = h('div', { class: 'chips' });
-  const buttons = UNIVERSES.map((u) => {
-    const b = h('button', { type: 'button', class: 'chip', onclick: () => update(universePatch(u.id)) }, t(`universe.${u.id}`));
-    grid.append(b);
-    return [u.id, b];
-  });
+  const grid = h('div', { class: 'font-groups' });
+  const buttons = [];
+  for (const group of UNIVERSE_GROUPS) {
+    const chips = h('div', { class: 'chips' });
+    for (const u of UNIVERSES.filter((x) => x.group === group)) {
+      const b = h('button', { type: 'button', class: 'chip', onclick: () => update(universePatch(u.id)) }, t(`universe.${u.id}`));
+      chips.append(b);
+      buttons.push([u.id, b]);
+    }
+    grid.append(h('div', { class: 'font-group' }, h('div', { class: 'field-label small' }, t(`universe.group.${group}`)), chips));
+  }
   onSync(() => {
     for (const [id, b] of buttons) b.setAttribute('aria-pressed', String(state.universe === id));
   });
@@ -471,6 +477,14 @@ function inviteSection() {
     'invite',
     'section.invite',
     true,
+    field(
+      'invite.occasion',
+      segmented(
+        OCCASIONS.map((o) => ({ value: o, label: t(`invite.occasion.${o}`) })),
+        () => state.occasion,
+        (v) => setOccasion(v),
+      ),
+    ),
     fieldInput('title'),
     h('div', { class: 'field-row' }, fieldInput('name', { max: 40 }), fieldInput('age', { numeric: true, max: 3, small: true })),
     fieldInput('message', { multiline: true }),
@@ -667,8 +681,9 @@ export function refreshFonts() {
 
 export function initUI(root, hooks) {
   const isNote = () => state.mode === 'note';
+  // "I make" sits above the preview, at the very top of the page.
+  document.getElementById('mode-bar').replaceChildren(modeBar());
   root.replaceChildren(
-    modeBar(),
     universeSection(),
     showIf(namesSection(), isNote),
     showIf(messageSection(), isNote),

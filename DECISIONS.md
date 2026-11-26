@@ -63,6 +63,13 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Nouvel univers Anniversaire (Chewy, arc-en-ciel, ballons, gâteau, cotillons, cadre festif), choisi automatiquement en passant à l'invitation depuis un univers de Noël.
 - Carte A6 par défaut, 4 par feuille ; l'image PNG donne une seule carte (à envoyer par message).
 
+## Demandé le 27/11
+- « Je crée » est tout en haut de la page, au-dessus de l'aperçu.
+- Nouveaux univers, valables pour les mots et les invitations : Pirates (Pirata One), Dinosaures (Sniglet), Espace (Orbitron), Sirènes (Pacifico), Dragons et Chevaliers (Almendra). Les univers sont rangés par familles : Noël, Fêtes, Aventures, Héros et magie.
+- Invitations à thème (« La fête ») : Anniversaire, Soirée pyjama, Fête déguisée, Boum. Chaque fête a son univers (style), son titre et son petit mot d'exemple (gardés si le parent les a déjà changés) et sa phrase quand il n'y a pas d'âge (« Camille t'invite à sa soirée pyjama ! »).
+- Dessins ajoutés : coffre, drapeau pirate, ancre, tête de mort, boussole, palmier, carte ; dinosaure, œuf de dino, volcan ; fusée, planète, soucoupe, astronaute ; coquillages, étoile de mer, poisson, vagues ; dragon, épée ; oreiller, nounours, lit ; boule disco, disque (IconOven, Lucide Lab, IconMind, UIX Icons : licences MIT ou ISC).
+- Polices : Orbitron n'a pas « » (remplacés par "), Henny Penny n'a pas « … » (remplacé par ...).
+
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
 - Un seul calcul de mise en page à 300 dpi : aperçu, impression et PNG sont la même scène, donc les mêmes retours à la ligne. Les mots ne sont jamais coupés ; la ponctuation française espacée reste collée à son mot ; un nom de lutin n'est jamais coupé.

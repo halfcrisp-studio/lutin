@@ -90,15 +90,15 @@ export function buildScene(state) {
     h: inner.h - decor.inset.top - decor.inset.bottom - 2 * pad,
   };
 
-  // Text as drawn: uppercase option, and "…" spelled out for fonts that lack it.
+  // Text as drawn: uppercase option, and substitutes for characters the font lacks.
   const prepare = (s) => {
     let out = state.uppercase ? s.toLocaleUpperCase('fr-FR') : s;
-    if (font.noEllipsis) out = out.replace(/…/g, '...');
+    if (font.replace) for (const [missing, sub] of Object.entries(font.replace)) out = out.split(missing).join(sub);
     return out;
   };
   let blocks;
   if (state.mode === 'invite') {
-    blocks = invitationBlocks(state.invitation || {}, (v) => prepare(v.normalize('NFC')));
+    blocks = invitationBlocks(state.invitation || {}, (v) => prepare(v.normalize('NFC')), state.occasion);
   } else {
     const text = prepare((state.text || '').normalize('NFC'));
     const paragraphs = trimEmpty(text.replace(/\r\n?/g, '\n').split('\n').map((p) => p.trim()));

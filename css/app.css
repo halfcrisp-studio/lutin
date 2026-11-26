@@ -175,7 +175,8 @@ button, input, textarea { font: inherit; color: inherit; }
 .name-chip.is-fav { border-style: dashed; }
 .name-chip .chip-add { border: 0; min-height: 34px; padding: 4px 8px; }
 /* What is being made: elves' note or birthday invitation */
-.mode-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin-bottom: 12px; padding: 10px 12px; border-radius: var(--radius); background: var(--card); border: 1px solid var(--line); color: var(--card-ink); --ink: var(--card-ink); --muted: var(--card-muted); }
+.mode-wrap { max-width: 1200px; margin: 0 auto; padding: 0 16px 14px; }
+.mode-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 10px 12px; border-radius: var(--radius); background: var(--card); border: 1px solid var(--line); color: var(--card-ink); --ink: var(--card-ink); --muted: var(--card-muted); }
 .mode-label { font-family: 'Lutin UI', system-ui, sans-serif; font-weight: 600; font-size: 16px; }
 
 /* Invitation fields */

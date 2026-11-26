@@ -1,80 +1,53 @@
 // Universes are plain configuration. Picking one sets everything at once
 // (font, colors, frame, decorations); every setting can be changed afterwards.
+// They work for both the elves' notes and the invitations.
 // Adding one (Halloween, Petite Souris…) means adding an entry here and its label.
+export const UNIVERSE_GROUPS = ['noel', 'fete', 'aventure', 'heros'];
+
+const u = (id, group, palette, font, decorSet, placement, frame, frameStyle) => ({
+  id, group, palette, font, decor: true, decorSet, placement, frame, frameStyle, frameColor: 'auto',
+});
+
 export const UNIVERSES = [
-  {
-    id: 'lutins',
-    palette: 'sapin', font: 'titan',
-    decor: true, decorSet: 'lutins', placement: 'corners',
-    frame: false, frameStyle: 'candy', frameColor: 'auto',
-  },
-  {
-    id: 'anniversaire',
-    palette: 'arc', font: 'chewy',
-    decor: true, decorSet: 'anniversaire', placement: 'corners',
-    frame: true, frameStyle: 'festive', frameColor: 'auto',
-  },
-  {
-    id: 'grognon',
-    palette: 'grognon', font: 'freckle',
-    decor: true, decorSet: 'grognon', placement: 'corners',
-    frame: true, frameStyle: 'simple', frameColor: 'auto',
-  },
-  {
-    id: 'magie',
-    palette: 'magie', font: 'hennypenny',
-    decor: true, decorSet: 'magie', placement: 'corners',
-    frame: true, frameStyle: 'double', frameColor: 'auto',
-  },
-  {
-    id: 'princesse',
-    palette: 'princesse', font: 'yeseva',
-    decor: true, decorSet: 'conte', placement: 'corners',
-    frame: true, frameStyle: 'festive', frameColor: 'auto',
-  },
-  {
-    id: 'idoles',
-    palette: 'idoles', font: 'bungee',
-    decor: true, decorSet: 'musique', placement: 'scatter',
-    frame: false, frameStyle: 'simple', frameColor: 'auto',
-  },
-  {
-    id: 'chiots',
-    palette: 'chiots', font: 'titan',
-    decor: true, decorSet: 'pattes', placement: 'edges',
-    frame: true, frameStyle: 'dots', frameColor: 'auto',
-  },
-  {
-    id: 'araignee',
-    palette: 'araignee', font: 'bangers',
-    decor: true, decorSet: 'toile', placement: 'corners',
-    frame: true, frameStyle: 'simple', frameColor: 'auto',
-  },
-  {
-    id: 'police',
-    palette: 'police', font: 'elite',
-    decor: true, decorSet: 'police', placement: 'corners',
-    frame: true, frameStyle: 'candy', frameColor: 'auto',
-  },
+  u('lutins', 'noel', 'sapin', 'titan', 'lutins', 'corners', false, 'candy'),
+  u('grognon', 'noel', 'grognon', 'freckle', 'grognon', 'corners', true, 'simple'),
+
+  u('anniversaire', 'fete', 'arc', 'chewy', 'anniversaire', 'corners', true, 'festive'),
+  u('pyjama', 'fete', 'pyjama', 'chewy', 'pyjama', 'corners', true, 'dots'),
+  u('deguisee', 'fete', 'fete', 'bungee', 'deguisee', 'scatter', false, 'simple'),
+  u('boum', 'fete', 'boum', 'righteous', 'boum', 'edges', true, 'simple'),
+
+  u('pirates', 'aventure', 'pirates', 'pirata', 'pirates', 'corners', true, 'dots'),
+  u('dino', 'aventure', 'dino', 'sniglet', 'dino', 'edges', false, 'simple'),
+  u('espace', 'aventure', 'espace', 'orbitron', 'espace', 'scatter', false, 'simple'),
+  u('sirenes', 'aventure', 'sirenes', 'pacifico', 'sirenes', 'corners', true, 'festive'),
+  u('chevaliers', 'aventure', 'chevaliers', 'almendra', 'chevaliers', 'corners', true, 'double'),
+  u('police', 'aventure', 'police', 'elite', 'police', 'corners', true, 'candy'),
+
+  u('magie', 'heros', 'magie', 'hennypenny', 'magie', 'corners', true, 'double'),
+  u('princesse', 'heros', 'princesse', 'yeseva', 'conte', 'corners', true, 'festive'),
+  u('araignee', 'heros', 'araignee', 'bangers', 'toile', 'corners', true, 'simple'),
+  u('idoles', 'heros', 'idoles', 'bungee', 'musique', 'scatter', false, 'simple'),
+  u('chiots', 'heros', 'chiots', 'titan', 'pattes', 'edges', true, 'dots'),
 ];
 
 export function getUniverse(id) {
-  return UNIVERSES.find((u) => u.id === id) || UNIVERSES[0];
+  return UNIVERSES.find((x) => x.id === id) || UNIVERSES[0];
 }
 
 /** Everything a universe sets when it is picked. */
 export function universePatch(id) {
-  const u = getUniverse(id);
+  const x = getUniverse(id);
   return {
-    universe: u.id,
-    paletteId: u.palette,
-    fontId: u.font,
+    universe: x.id,
+    paletteId: x.palette,
+    fontId: x.font,
     weight: null,
-    decor: u.decor,
-    decorSet: u.decorSet,
-    decorPlacement: u.placement,
-    frame: u.frame,
-    frameStyle: u.frameStyle,
-    frameColor: u.frameColor,
+    decor: x.decor,
+    decorSet: x.decorSet,
+    decorPlacement: x.placement,
+    frame: x.frame,
+    frameStyle: x.frameStyle,
+    frameColor: x.frameColor,
   };
 }

@@ -4,8 +4,8 @@ import { t } from './i18n.js';
 import { PALETTES } from './palettes.js';
 import { DECOR_SETS, FRAME_STYLES, PLACEMENTS } from './decor.js';
 import { FORMATS_BY_MODE } from './formats.js';
-import { exampleInvitation } from './invitation.js';
-import { UNIVERSES, universePatch } from './universes.js';
+import { OCCASIONS, exampleInvitation } from './invitation.js';
+import { UNIVERSES, getUniverse, universePatch } from './universes.js';
 
 export const SIZE_MIN_PT = 8;
 export const SIZE_MAX_PT = 300;
@@ -13,7 +13,8 @@ export const MAX_COLLECTION = 40;
 
 export const DEFAULTS = {
   ...universePatch('lutins'),
-  mode: 'note', // 'note' (message from the elves) or 'invite' (birthday invitation)
+  mode: 'note', // 'note' (message from the elves) or 'invite' (party invitation)
+  occasion: 'anniversaire', // kind of party for invitations
   // The family's elves; the ones in `signers` sign today's note, in that order.
   collection: ['Lutin Farceur', 'Biscotte'],
   signers: ['Lutin Farceur'],
@@ -57,6 +58,7 @@ function sanitize(s) {
   const signers = (names(s.signers) || d.signers).filter((n) => collection.includes(n));
   return {
     mode,
+    occasion: oneOf(s.occasion, OCCASIONS, d.occasion),
     universe: oneOf(s.universe, UNIVERSES.map((u) => u.id), d.universe),
     paletteId: oneOf(s.paletteId, PALETTES.map((p) => p.id), d.paletteId),
     fontId: typeof s.fontId === 'string' ? s.fontId : d.fontId,
@@ -92,7 +94,7 @@ const saved = loadJSON('state', null);
 const usable = saved && typeof saved === 'object' && !Array.isArray(saved);
 export const state = sanitize(usable ? migrate({ ...DEFAULTS, ...saved }) : DEFAULTS);
 // Invitation fields (first name, age, date, address…) are never saved: memory only.
-state.invitation = exampleInvitation();
+state.invitation = exampleInvitation(state.occasion);
 
 /** The message actually shown: the example until the user types their own. */
 export function messageText() {
@@ -121,13 +123,26 @@ export function setMode(mode) {
   if (mode === 'invite') {
     patch.format = 'a6';
     patch.fillSheet = true;
-    if (state.universe === 'lutins' || state.universe === 'grognon') Object.assign(patch, universePatch('anniversaire'));
+    if (getUniverse(state.universe).group === 'noel') Object.assign(patch, universePatch(state.occasion));
   } else {
     if (!FORMATS_BY_MODE.note.includes(state.format)) patch.format = 'a4';
     patch.fillSheet = false;
-    if (state.universe === 'anniversaire') Object.assign(patch, universePatch('lutins'));
+    if (OCCASIONS.includes(state.universe)) Object.assign(patch, universePatch('lutins'));
   }
   update(patch);
+}
+
+/**
+ * Pick the kind of party: its style is applied, and the example title and
+ * message follow unless the parent already wrote their own.
+ */
+export function setOccasion(occasion) {
+  if (occasion === state.occasion || !OCCASIONS.includes(occasion)) return;
+  const before = exampleInvitation(state.occasion);
+  const after = exampleInvitation(occasion);
+  const invitation = { ...state.invitation };
+  for (const k of ['title', 'message']) if (invitation[k] === before[k]) invitation[k] = after[k];
+  update({ occasion, invitation, ...universePatch(occasion) });
 }
 
 export function setInvitationField(key, value) {

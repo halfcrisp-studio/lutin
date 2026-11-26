@@ -37,6 +37,14 @@ export const PALETTES = [
   { id: 'chiots', group: 'universe', colors: ['#1E40AF', '#D32F2F', '#E65100', '#B45309'] },
   { id: 'princesse', group: 'universe', pastel: true, colors: ['#F48FB1', '#CE93D8', '#FFD54F', '#90CAF9'] },
   { id: 'police', group: 'universe', colors: ['#0D47A1', '#C62828', '#1565C0', INK_BLACK] },
+  { id: 'pyjama', group: 'universe', pastel: true, colors: ['#B39DDB', '#90CAF9', '#F8BBD0', '#FFE082'] },
+  { id: 'fete', group: 'universe', colors: ['#D81B60', '#7B1FA2', '#0277BD', '#E65100', '#2E7D32'] },
+  { id: 'boum', group: 'universe', colors: ['#AA00FF', '#C51162', '#00838F', '#6200EA', INK_BLACK] },
+  { id: 'pirates', group: 'universe', colors: ['#5D4037', '#B71C1C', INK_BLACK, '#9C7A00'] },
+  { id: 'dino', group: 'universe', colors: ['#33691E', '#E65100', '#5D4037', '#00695C'] },
+  { id: 'espace', group: 'universe', colors: ['#1A237E', '#6A1B9A', '#00838F', '#C2185B'] },
+  { id: 'sirenes', group: 'universe', colors: ['#00838F', '#00796B', '#7B1FA2', '#D81B60'] },
+  { id: 'chevaliers', group: 'universe', colors: ['#1A237E', '#B71C1C', '#9C7A00', '#424242'] },
 ];
 
 export function getPalette(id) {

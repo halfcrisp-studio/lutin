@@ -29,6 +29,11 @@ FONTS = [
     ("henny-penny", 400),
     ("bungee", 400),
     ("yeseva-one", 400),
+    ("pirata-one", 400),
+    ("sniglet", 800),
+    ("orbitron", 700),
+    ("righteous", 400),
+    ("almendra", 700),
     ("special-elite", 400),
 ]
 
