@@ -23,6 +23,7 @@ Puis ouvrir http://127.0.0.1:8793/. Les modules JavaScript ne se chargent pas en
 | `js/decor.js`, `js/decor-icons.js` | Cadres et dessins au trait (icônes Lucide converties) |
 | `js/fonts.js` | Polices intégrées et polices importées (gardées dans le navigateur) |
 | `js/palettes.js`, `js/universes.js` | Jeux de couleurs et univers (simple configuration) |
+| `js/invitation.js` | Invitation d'anniversaire : champs → blocs de texte (rien n'est mémorisé) |
 | `js/templates.js` | Modèles de messages à variantes (prévu pour la future banque de messages) |
 | `js/strings-fr.js` | Textes de l'interface (l'anglais viendra dans un fichier jumeau) |
 | `js/theme.js` | Mode jour (« Papier crème ») / nuit (« Nuit de Noël ») : suit l'appareil, bouton pour forcer |

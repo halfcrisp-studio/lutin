@@ -8,7 +8,7 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - V1 sans banque de messages : le parent écrit son texte. Un seul texte d'exemple au premier lancement. Signature automatique « Signé A », « Signé A et B », « Signé A, B et C ».
 - Le moteur de modèles à variantes (signataires 1/N, destinataires 1/N) est prêt (`js/templates.js`) mais pas branché ; règle d'écriture prévue : éviter les accords selon le genre du lutin.
 - Univers : Lutins de Noël d'abord ; les cinq autres existent déjà sous forme de configuration (palette, police, décor, cadre), avec des noms génériques, sans marque ni personnage protégé.
-- Formats : A4 et A5 (A5 au minimum, jamais plus petit), portrait ou paysage. L'impression part toujours sur une feuille A4 : l'A5 occupe une demi-feuille, avec deux exemplaires possibles et des traits de coupe.
+- Formats : ils s'adaptent à chaque fonction (règle du 26/11). Mots des lutins : A4 et A5 (jamais plus petit). Invitations : carte A6 (4 par feuille), A5 ou A4. L'impression part toujours sur une feuille A4 découpée en cases, avec l'option « Remplir la feuille » et des traits de coupe.
 
 ## Style
 - Polices libres hébergées sur le site (aucun appel à Google Fonts) : bulles, rondes à épaisseur réglable, fines et manuscrites, lecture facile, classiques, thèmes ; plus l'import de sa propre police (gardée dans le navigateur).
@@ -54,6 +54,14 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Prochain : l'invitation d'anniversaire (gardée parmi les pistes).
 - V1.1 : la chasse au trésor (indices numérotés, planche à découper).
 - Ensuite : printables pour les lutins, sur la même planche à découper (proposition, à valider dans A_TRANCHER.md).
+
+## Invitation d'anniversaire (26/11)
+- En haut des réglages, « Je crée » : un mot des lutins ou une invitation d'anniversaire. L'invitation remplace les sections Lutins et Message par ses champs : titre, prénom, âge, petit mot, date, horaire, lieu, réponse.
+- Les champs de l'invitation ne sont jamais mémorisés (exemple au départ, effacé à la fermeture de la page).
+- Phrase automatique : « Camille fête ses 7 ans ! » (cas sans âge, 1 an, sans prénom). Les nombres restent collés à leur mot (« 7 ans », « 12 décembre ») et les groupes de chiffres du téléphone restent ensemble.
+- Date, horaire, lieu et réponse ont une petite icône au trait devant.
+- Nouvel univers Anniversaire (Chewy, arc-en-ciel, ballons, gâteau, cotillons, cadre festif), choisi automatiquement en passant à l'invitation depuis un univers de Noël.
+- Carte A6 par défaut, 4 par feuille ; l'image PNG donne une seule carte (à envoyer par message).
 
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.

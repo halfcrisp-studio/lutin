@@ -1,6 +1,6 @@
 import { t } from './i18n.js';
 import { messageText, state, subscribe, update } from './state.js';
-import { DEFAULT_FONT_ID, getFont, loadFont, restoreCustomFonts } from './fonts.js';
+import { DEFAULT_FONT_ID, getFont, isLoaded, loadFont, restoreCustomFonts } from './fonts.js';
 import { buildScene, drawScene } from './render.js';
 import { canShareFile, download, notePngBlob, prefersShare, printSheet, renderNoteCanvas, shareFile } from './sheet.js';
 import { initUI, refreshFonts, syncAll } from './ui.js';
@@ -15,7 +15,9 @@ const btnPrint = document.getElementById('btn-print');
 const btnImage = document.getElementById('btn-image');
 let scene = null;
 let renderedFontId = null;
-let frame = 0;
+let renderPending = false;
+let frameId = 0;
+let timerId = 0;
 
 function sceneState() {
   return { ...state, text: messageText() };
@@ -43,12 +45,24 @@ function sizeCanvas(page) {
   return pxW / page.w;
 }
 
+const FONT_WAIT_MS = 400;
+
 async function render() {
   try {
     const fontId = state.fontId;
-    await loadFont(getFont(fontId)); // resolves false if it fails: the fallback is drawn
+    const font = getFont(fontId);
+    let settled = isLoaded(font);
+    if (!settled) {
+      // Wait a little for the font; on a slow connection, draw with the fallback
+      // now and draw again as soon as the font arrives (resolves false on failure).
+      const loading = loadFont(font).then(() => {
+        settled = true;
+        if (state.fontId === fontId) requestRender();
+      });
+      await Promise.race([loading, new Promise((r) => setTimeout(r, FONT_WAIT_MS))]);
+    }
     scene = buildScene(sceneState());
-    renderedFontId = fontId;
+    renderedFontId = settled ? fontId : null;
     drawScene(previewCtx, scene, sizeCanvas(scene.page));
     overflowEl.hidden = !scene.overflow;
   } finally {
@@ -56,12 +70,22 @@ async function render() {
   }
 }
 
+/**
+ * Draw on the next frame. Some browsers suspend animation frames (app webviews,
+ * background tabs, headless tests), so a short timer takes over if no frame comes.
+ */
 function requestRender() {
-  if (frame) return;
-  frame = requestAnimationFrame(() => {
-    frame = 0;
+  if (renderPending) return;
+  renderPending = true;
+  const run = () => {
+    if (!renderPending) return;
+    renderPending = false;
+    cancelAnimationFrame(frameId);
+    clearTimeout(timerId);
     render();
-  });
+  };
+  frameId = requestAnimationFrame(run);
+  timerId = setTimeout(run, 120);
 }
 
 /** Exports wait for the chosen font, so the output matches the preview. */
@@ -79,7 +103,7 @@ function exportNote() {
 function onPrint() {
   if (!readyToExport()) return;
   const note = exportNote();
-  printSheet(note, state.format, state.orientation, state.copies);
+  printSheet(note, state.format, state.fillSheet);
   note.width = 1;
 }
 
@@ -93,7 +117,7 @@ async function onImage() {
     const note = exportNote();
     const blob = await notePngBlob(note);
     note.width = 1;
-    const name = `lutin-${new Date().toISOString().slice(0, 10)}.png`;
+    const name = `${state.mode === 'invite' ? 'invitation' : 'lutin'}-${new Date().toISOString().slice(0, 10)}.png`;
     if (!prefersShare()) download(blob, name);
     else if ((await shareFile(blob, name)) === 'blocked') showImageDialog(blob, name);
   } finally {

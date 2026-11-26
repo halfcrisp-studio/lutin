@@ -2,7 +2,7 @@
 // Everything here is synchronous on purpose: phones only allow printing and
 // sharing straight from the tap, without waiting in between.
 import { drawScene } from './render.js';
-import { MM, noteSizePx } from './formats.js';
+import { MM, SHEET_CELLS, noteSizePx } from './formats.js';
 
 function makeCanvas(w, h, target) {
   const c = target || document.createElement('canvas');
@@ -19,11 +19,12 @@ export function renderNoteCanvas(scene) {
 }
 
 /**
- * The printed page is always an A4 portrait sheet: a landscape note is turned
- * a quarter, an A5 note takes the top half (and the bottom half for a second copy),
- * with small cut marks on the fold line.
+ * The printed page is always an A4 portrait sheet divided into cells: one for A4,
+ * two halves for A5, four quarters for A6. The note is turned a quarter when its
+ * orientation differs from the cell's. With `fill`, every cell gets a copy.
+ * Small cut marks on the sheet edges show where to cut.
  */
-export function composePrintSheet(note, format, orientation, copies, target) {
+export function composePrintSheet(note, format, fill, target) {
   const a4 = noteSizePx('a4', 'portrait');
   const sheet = makeCanvas(a4.w, a4.h, target);
   const ctx = sheet.getContext('2d');
@@ -31,39 +32,49 @@ export function composePrintSheet(note, format, orientation, copies, target) {
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, a4.w, a4.h);
 
-  const drawFitted = (cx, cy, rotate) => {
+  const [cols, rows] = SHEET_CELLS[format] || SHEET_CELLS.a4;
+  const cw = a4.w / cols;
+  const ch = a4.h / rows;
+  const rotate = cw > ch !== note.width > note.height;
+  const count = fill ? cols * rows : 1;
+  for (let i = 0; i < count; i++) {
+    const cx = (i % cols) * cw + cw / 2;
+    const cy = Math.floor(i / cols) * ch + ch / 2;
     ctx.save();
     ctx.translate(cx, cy);
     if (rotate) ctx.rotate(-Math.PI / 2);
     ctx.drawImage(note, -note.width / 2, -note.height / 2);
     ctx.restore();
-  };
-
-  if (format !== 'a5') {
-    drawFitted(a4.w / 2, a4.h / 2, orientation === 'landscape');
-    return sheet;
   }
-  const half = a4.h / 2;
-  const rotate = orientation !== 'landscape';
-  drawFitted(a4.w / 2, half / 2, rotate);
-  if (copies === 2) drawFitted(a4.w / 2, half + half / 2, rotate);
 
-  ctx.strokeStyle = '#a8a8a8';
-  ctx.lineWidth = 0.25 * MM;
-  const mark = 7 * MM;
-  ctx.beginPath();
-  ctx.moveTo(0, half);
-  ctx.lineTo(mark, half);
-  ctx.moveTo(a4.w - mark, half);
-  ctx.lineTo(a4.w, half);
-  ctx.stroke();
+  if (cols * rows > 1) {
+    ctx.strokeStyle = '#a8a8a8';
+    ctx.lineWidth = 0.25 * MM;
+    const mark = 7 * MM;
+    ctx.beginPath();
+    for (let c = 1; c < cols; c++) {
+      const x = c * cw;
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, mark);
+      ctx.moveTo(x, a4.h - mark);
+      ctx.lineTo(x, a4.h);
+    }
+    for (let r = 1; r < rows; r++) {
+      const y = r * ch;
+      ctx.moveTo(0, y);
+      ctx.lineTo(mark, y);
+      ctx.moveTo(a4.w - mark, y);
+      ctx.lineTo(a4.w, y);
+    }
+    ctx.stroke();
+  }
   return sheet;
 }
 
 /** Draw the sheet into the print-only canvas and open the print dialog. */
-export function printSheet(note, format, orientation, copies) {
+export function printSheet(note, format, fill) {
   const target = document.getElementById('print-canvas');
-  composePrintSheet(note, format, orientation, copies, target);
+  composePrintSheet(note, format, fill, target);
   const release = () => {
     target.width = 1;
     target.height = 1;

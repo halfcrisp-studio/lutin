@@ -1,7 +1,8 @@
 // Scene building (state -> positioned text, frame, decor) and drawing.
 // The scene is computed once in sheet units (300 dpi) and drawn at any scale,
 // so the preview, the print sheet and the PNG are the same picture.
-import { REF_SIZE, layoutText } from './layout.js';
+import { REF_SIZE, layoutText, messageBlocks } from './layout.js';
+import { invitationBlocks } from './invitation.js';
 import { effectiveWeight, familyOf, fontString, getFont, isLoaded, supportsOutline } from './fonts.js';
 import { resolveInk } from './palettes.js';
 import { colorSequence, ensureContrast, mulberry32 } from './color.js';
@@ -95,21 +96,25 @@ export function buildScene(state) {
     if (font.noEllipsis) out = out.replace(/…/g, '...');
     return out;
   };
-  const text = prepare((state.text || '').normalize('NFC'));
-  const paragraphs = trimEmpty(text.replace(/\r\n?/g, '\n').split('\n').map((p) => p.trim()));
-  const signature = state.showSignature
-    ? signatureUnits(state.signers, t('signature.prefix'), t('signature.and')).map(prepare)
-    : [];
+  let blocks;
+  if (state.mode === 'invite') {
+    blocks = invitationBlocks(state.invitation || {}, (v) => prepare(v.normalize('NFC')));
+  } else {
+    const text = prepare((state.text || '').normalize('NFC'));
+    const paragraphs = trimEmpty(text.replace(/\r\n?/g, '\n').split('\n').map((p) => p.trim()));
+    const signature = state.showSignature
+      ? signatureUnits(state.signers, t('signature.prefix'), t('signature.and')).map(prepare)
+      : [];
+    blocks = messageBlocks({ paragraphs, signature, align: state.align });
+  }
 
   const m = measurerFor(font, weight);
   const layout = layoutText({
-    paragraphs,
-    signature,
+    blocks,
     box,
     measure: m.measure,
     metrics: m.metrics,
     lineHeight: state.lineHeight,
-    align: state.align,
     fixedSize: state.autoSize ? null : ptToPx(state.sizePt),
     minSize: ptToPx(8),
     maxSize: Math.min(box.h * 0.3, box.w * 0.45),
@@ -123,6 +128,7 @@ export function buildScene(state) {
     handmade: !!state.handmade,
     connected: !!font.connected,
     measure: m.measure,
+    iconColors: ink.lines,
   });
 
   return {
@@ -131,7 +137,8 @@ export function buildScene(state) {
     weight,
     outline: !!state.outline && supportsOutline(font, weight),
     pastel: ink.pastel,
-    runs,
+    runs: runs.text,
+    inlineIcons: runs.icons,
     frame,
     decor: decor.items,
     overflow: layout.overflow,
@@ -153,12 +160,19 @@ function buildRuns(layout, o) {
   const perLetter = o.mode === 'letter' && o.colors.length > 1;
   const jitterLetters = o.handmade && !o.connected;
   const runs = [];
+  const icons = [];
   let lastColor = o.colors[0];
 
   for (const line of layout.lines) {
     const s = line.size;
     const k = s / REF_SIZE;
     for (const tok of line.tokens) {
+      if (tok.icon) {
+        // Small line icon in front of a detail (date, time, place…), centered on the letters.
+        const color = o.iconColors[icons.length % o.iconColors.length];
+        icons.push({ type: 'icon', icon: tok.icon, x: tok.x + tok.width * 0.42, y: line.baseline - s * 0.33, size: s * 0.95, rot: 0, color, stroke: 2 });
+        continue;
+      }
       const wordColor = perLetter ? null : (lastColor = nextColor());
       if (!perLetter && !jitterLetters) {
         const rot = o.handmade ? (rng() - 0.5) * 2 * 0.035 : 0;
@@ -185,7 +199,7 @@ function buildRuns(layout, o) {
   }
   // Pastel letters get a thin border in a darker shade of their own color.
   if (o.border) for (const r of runs) r.border = o.border.get(r.color) || null;
-  return runs;
+  return { text: runs, icons };
 }
 
 // ---------- Drawing ----------
@@ -197,6 +211,7 @@ export function drawScene(ctx, scene, scale) {
   ctx.fillRect(0, 0, scene.page.w, scene.page.h);
   if (scene.frame) drawFrame(ctx, scene.frame);
   for (const item of scene.decor) drawDecorItem(ctx, item);
+  for (const item of scene.inlineIcons || []) drawDecorItem(ctx, item);
 
   ctx.textBaseline = 'alphabetic';
   ctx.textAlign = 'left';

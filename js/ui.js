@@ -1,6 +1,7 @@
 // Controls panel. Built once; each control re-syncs from the state on change.
 import { t } from './i18n.js';
-import { SIZE_MAX_PT, SIZE_MIN_PT, addElf, messageText, removeElf, state, toggleSigner, update } from './state.js';
+import { SIZE_MAX_PT, SIZE_MIN_PT, addElf, messageText, removeElf, setInvitationField, setMode, state, toggleSigner, update } from './state.js';
+import { FORMATS_BY_MODE, SHEET_CELLS } from './formats.js';
 import { formatNames } from './signature.js';
 import { UNIVERSES, universePatch } from './universes.js';
 import { PALETTES, PALETTE_GROUPS, pastelLine, resolveColors, resolveInk } from './palettes.js';
@@ -440,23 +441,83 @@ function styleSection() {
 
 const clampPt = (v) => Math.min(SIZE_MAX_PT, Math.max(SIZE_MIN_PT, Math.round(v)));
 
+/** "Fill the sheet (2 or 4 copies)" for formats smaller than A4. */
+function fillToggle() {
+  const el = toggle('layout.fill', () => state.fillSheet, (v) => update({ fillSheet: v }));
+  const label = el.querySelector('.switch-label');
+  onSync(() => {
+    const [cols, rows] = SHEET_CELLS[state.format] || [1, 1];
+    el.hidden = cols * rows < 2;
+    label.textContent = t('layout.fill', { count: cols * rows });
+  });
+  return el;
+}
+
+function inviteSection() {
+  const inputs = [];
+  const fieldInput = (key, opts = {}) => {
+    const id = `invite-${key}`;
+    const input = opts.multiline
+      ? h('textarea', { id, class: 'textarea textarea-small', rows: 2 })
+      : h('input', { id, type: 'text', class: 'text-input', autocomplete: 'off', inputmode: opts.numeric ? 'numeric' : null, maxlength: opts.max || 120 });
+    input.addEventListener('input', () => setInvitationField(key, input.value));
+    inputs.push([key, input]);
+    return h('label', { class: `field${opts.small ? ' field-small' : ''}`, for: id }, h('span', { class: 'field-label' }, t(`invite.${key}`)), input);
+  };
+  onSync(() => {
+    for (const [key, input] of inputs) if (document.activeElement !== input) input.value = state.invitation[key] || '';
+  });
+  return section(
+    'invite',
+    'section.invite',
+    true,
+    fieldInput('title'),
+    h('div', { class: 'field-row' }, fieldInput('name', { max: 40 }), fieldInput('age', { numeric: true, max: 3, small: true })),
+    fieldInput('message', { multiline: true }),
+    fieldInput('date'),
+    fieldInput('time'),
+    fieldInput('place'),
+    fieldInput('rsvp'),
+    h('p', { class: 'hint' }, t('invite.privacy')),
+  );
+}
+
+function modeBar() {
+  return h(
+    'div',
+    { class: 'mode-bar' },
+    h('span', { class: 'mode-label' }, t('mode.label')),
+    segmented(
+      [
+        { value: 'note', label: t('mode.note') },
+        { value: 'invite', label: t('mode.invite') },
+      ],
+      () => state.mode,
+      (v) => setMode(v),
+    ),
+  );
+}
+
 function layoutSection(hooks) {
   return section(
     'layout',
     'section.layout',
     false,
-    field(
-      'layout.format',
-      segmented(
-        [
-          { value: 'a4', label: t('layout.format.a4') },
-          { value: 'a5', label: t('layout.format.a5') },
-        ],
-        () => state.format,
-        (v) => update({ format: v }),
+    // Formats depend on what is being made (notes: A5 or larger; invitations: cards).
+    ...Object.entries(FORMATS_BY_MODE).map(([mode, formats]) =>
+      showIf(
+        field(
+          'layout.format',
+          segmented(
+            formats.map((f) => ({ value: f, label: t(`layout.format.${f}`) })),
+            () => state.format,
+            (v) => update({ format: v }),
+          ),
+        ),
+        () => state.mode === mode,
       ),
     ),
-    showIf(toggle('layout.copies', () => state.copies === 2, (v) => update({ copies: v ? 2 : 1 })), () => state.format === 'a5'),
+    fillToggle(),
     field(
       'layout.orientation',
       segmented(
@@ -492,16 +553,19 @@ function layoutSection(hooks) {
       set: (v) => update({ lineHeight: v }),
       format: (v) => `${Math.round(v * 100)} %`,
     }),
-    field(
-      'layout.align',
-      segmented(
-        [
-          { value: 'center', label: t('layout.align.center') },
-          { value: 'left', label: t('layout.align.left') },
-        ],
-        () => state.align,
-        (v) => update({ align: v }),
+    showIf(
+      field(
+        'layout.align',
+        segmented(
+          [
+            { value: 'center', label: t('layout.align.center') },
+            { value: 'left', label: t('layout.align.left') },
+          ],
+          () => state.align,
+          (v) => update({ align: v }),
+        ),
       ),
+      () => state.mode === 'note',
     ),
   );
 }
@@ -602,5 +666,15 @@ export function refreshFonts() {
 }
 
 export function initUI(root, hooks) {
-  root.replaceChildren(universeSection(), namesSection(), messageSection(), styleSection(), layoutSection(hooks), decorSection());
+  const isNote = () => state.mode === 'note';
+  root.replaceChildren(
+    modeBar(),
+    universeSection(),
+    showIf(namesSection(), isNote),
+    showIf(messageSection(), isNote),
+    showIf(inviteSection(), () => !isNote()),
+    styleSection(),
+    layoutSection(hooks),
+    decorSection(),
+  );
 }

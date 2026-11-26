@@ -4,6 +4,7 @@ import { DEFAULTS } from '../js/state.js';
 import { universePatch } from '../js/universes.js';
 import { loadAllFonts } from '../js/fonts.js';
 import { t } from '../js/i18n.js';
+import { exampleInvitation } from '../js/invitation.js';
 
 const example = t('message.example');
 const base = { ...DEFAULTS, text: example, frame: true, decor: true, signers: ['Lutin Farceur', 'Biscotte'] };
@@ -15,6 +16,8 @@ const variants = [
   ['Idoles contre les Ombres', { ...base, ...universePatch('idoles') }],
   ['Chiots Sauveteurs', { ...base, ...universePatch('chiots'), signers: ['Pompon', 'Caramel', 'Filou'] }],
   ['Héros Araignée', { ...base, ...universePatch('araignee') }],
+  ['Invitation A6, Anniversaire', { ...base, ...universePatch('anniversaire'), mode: 'invite', invitation: exampleInvitation(), format: 'a6' }],
+  ['Invitation A5 paysage, Princesses', { ...base, ...universePatch('princesse'), mode: 'invite', invitation: { ...exampleInvitation(), name: 'Léonie', age: '5' }, format: 'a5', orientation: 'landscape' }],
   ['Princesses et Fées', { ...base, ...universePatch('princesse'), signers: ['Fée Paillette'] }],
   ['Policiers et Voleurs', { ...base, ...universePatch('police'), signers: ['Inspecteur Lutin'] }],
   ["Contour à colorier, cadre sucre d'orge", { ...base, outline: true, frameStyle: 'candy' }],

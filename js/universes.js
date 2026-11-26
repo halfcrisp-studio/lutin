@@ -9,6 +9,12 @@ export const UNIVERSES = [
     frame: false, frameStyle: 'candy', frameColor: 'auto',
   },
   {
+    id: 'anniversaire',
+    palette: 'arc', font: 'chewy',
+    decor: true, decorSet: 'anniversaire', placement: 'corners',
+    frame: true, frameStyle: 'festive', frameColor: 'auto',
+  },
+  {
     id: 'grognon',
     palette: 'grognon', font: 'freckle',
     decor: true, decorSet: 'grognon', placement: 'corners',

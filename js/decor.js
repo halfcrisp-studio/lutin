@@ -9,6 +9,7 @@ export const DECOR_SETS = [
   { id: 'sapins', icons: ['tree-pine', 'star', 'sparkles'] },
   { id: 'flocons', icons: ['snowflake', 'sparkles', 'star'] },
   { id: 'cadeaux', icons: ['gift', 'candy-cane', 'bell'] },
+  { id: 'anniversaire', icons: ['balloon', 'cake', 'party-popper', 'gift', 'star'] },
   { id: 'empreintes', icons: ['footprints'] },
   { id: 'grognon', icons: ['santa-hat', 'christmas-stocking', 'sack', 'angry'] },
   { id: 'magie', icons: ['book-open', 'owl', 'book-marked', 'wand-sparkles', 'flask-round', 'scroll', 'feather', 'moon-star'] },

@@ -3,7 +3,8 @@ import { loadJSON, saveJSON } from './storage.js';
 import { t } from './i18n.js';
 import { PALETTES } from './palettes.js';
 import { DECOR_SETS, FRAME_STYLES, PLACEMENTS } from './decor.js';
-import { FORMATS } from './formats.js';
+import { FORMATS_BY_MODE } from './formats.js';
+import { exampleInvitation } from './invitation.js';
 import { UNIVERSES, universePatch } from './universes.js';
 
 export const SIZE_MIN_PT = 8;
@@ -12,6 +13,7 @@ export const MAX_COLLECTION = 40;
 
 export const DEFAULTS = {
   ...universePatch('lutins'),
+  mode: 'note', // 'note' (message from the elves) or 'invite' (birthday invitation)
   // The family's elves; the ones in `signers` sign today's note, in that order.
   collection: ['Lutin Farceur', 'Biscotte'],
   signers: ['Lutin Farceur'],
@@ -26,7 +28,7 @@ export const DEFAULTS = {
   handmade: true,
   format: 'a4',
   orientation: 'portrait',
-  copies: 1,
+  fillSheet: false, // A5 / A6: one copy in every cell of the A4 sheet
   autoSize: true,
   sizePt: 48,
   lineHeight: 1.2,
@@ -50,9 +52,11 @@ function migrate(s) {
 
 function sanitize(s) {
   const d = DEFAULTS;
+  const mode = oneOf(s.mode, ['note', 'invite'], d.mode);
   const collection = (names(s.collection) || d.collection).slice(0, MAX_COLLECTION);
   const signers = (names(s.signers) || d.signers).filter((n) => collection.includes(n));
   return {
+    mode,
     universe: oneOf(s.universe, UNIVERSES.map((u) => u.id), d.universe),
     paletteId: oneOf(s.paletteId, PALETTES.map((p) => p.id), d.paletteId),
     fontId: typeof s.fontId === 'string' ? s.fontId : d.fontId,
@@ -74,9 +78,9 @@ function sanitize(s) {
     outline: !!s.outline,
     uppercase: !!s.uppercase,
     handmade: s.handmade !== false,
-    format: oneOf(s.format, FORMATS, d.format),
+    format: oneOf(s.format, FORMATS_BY_MODE[mode], FORMATS_BY_MODE[mode][0]),
     orientation: oneOf(s.orientation, ['portrait', 'landscape'], d.orientation),
-    copies: s.copies === 2 ? 2 : 1,
+    fillSheet: typeof s.fillSheet === 'boolean' ? s.fillSheet : s.copies === 2,
     autoSize: s.autoSize !== false,
     sizePt: num(s.sizePt, SIZE_MIN_PT, SIZE_MAX_PT, d.sizePt),
     lineHeight: num(s.lineHeight, 0.9, 2.2, d.lineHeight),
@@ -87,6 +91,8 @@ function sanitize(s) {
 const saved = loadJSON('state', null);
 const usable = saved && typeof saved === 'object' && !Array.isArray(saved);
 export const state = sanitize(usable ? migrate({ ...DEFAULTS, ...saved }) : DEFAULTS);
+// Invitation fields (first name, age, date, address…) are never saved: memory only.
+state.invitation = exampleInvitation();
 
 /** The message actually shown: the example until the user types their own. */
 export function messageText() {
@@ -105,7 +111,27 @@ export function update(patch) {
   Object.assign(state, patch);
   for (const fn of listeners) fn(state, patch);
   clearTimeout(saveTimer);
-  saveTimer = setTimeout(() => saveJSON('state', state), 300);
+  saveTimer = setTimeout(() => saveJSON('state', { ...state, invitation: undefined }), 300);
+}
+
+/** Switch between the elves' note and the birthday invitation, with sensible defaults. */
+export function setMode(mode) {
+  if (mode === state.mode) return;
+  const patch = { mode };
+  if (mode === 'invite') {
+    patch.format = 'a6';
+    patch.fillSheet = true;
+    if (state.universe === 'lutins' || state.universe === 'grognon') Object.assign(patch, universePatch('anniversaire'));
+  } else {
+    if (!FORMATS_BY_MODE.note.includes(state.format)) patch.format = 'a4';
+    patch.fillSheet = false;
+    if (state.universe === 'anniversaire') Object.assign(patch, universePatch('lutins'));
+  }
+  update(patch);
+}
+
+export function setInvitationField(key, value) {
+  update({ invitation: { ...state.invitation, [key]: value } });
 }
 
 // ---- Collection of elves ----

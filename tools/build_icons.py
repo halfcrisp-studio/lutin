@@ -24,6 +24,8 @@ ICONS = [
     "castle", "wand",
     # cops and robbers
     "siren", "fingerprint", "venetian-mask", "search", "key-round", "car-front",
+    # birthday and invitation details
+    "cake", "party-popper", "balloon", "calendar", "clock", "map-pin", "phone",
 ]
 # our name -> (Iconify prefix, icon name, indexes of drawn elements to drop)
 ICONIFY = {
