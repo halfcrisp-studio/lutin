@@ -153,6 +153,15 @@ button, input, textarea { font: inherit; color: inherit; }
 .btn-secondary { background: #fff; color: var(--accent-strong); }
 .btn-secondary:hover { background: var(--accent-soft); }
 
+.btn-action:disabled { opacity: 0.6; cursor: progress; }
+
+/* "Image ready" fallback dialog (phones that refuse to share without a fresh tap) */
+.image-dialog { width: min(92vw, 420px); border: 0; border-radius: 16px; padding: 18px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+.image-dialog::backdrop { background: rgba(30, 20, 10, 0.45); }
+.image-dialog h2 { margin: 0 0 12px; font-family: 'Lutin UI', system-ui, sans-serif; font-size: 20px; }
+.image-dialog img { display: block; width: 100%; max-height: 55vh; object-fit: contain; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 10px; }
+.image-dialog .row { margin-top: 10px; }
+
 /* Printing: only the prepared A4 sheet, edge to edge (no URL, no date). */
 #print-root { display: none; }
 @page { size: A4 portrait; margin: 0; }

@@ -129,6 +129,12 @@ export default {
   'action.preparing': 'Préparation…',
   'action.printHint': 'Si rien ne s’ouvre (navigateur d’une appli), utilise « Enregistrer l’image ».',
 
+  'image.ready': 'Ton image est prête',
+  'image.hint': 'Appuie longuement sur l’image pour l’enregistrer dans tes photos, ou :',
+  'image.share': 'Partager',
+  'image.download': 'Télécharger',
+  'image.close': 'Fermer',
+
   'footer.privacy': 'Confidentialité',
   'footer.legal': 'Mentions légales',
   'footer.credits': 'Crédits',

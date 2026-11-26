@@ -70,11 +70,16 @@ export function isLoaded(font) {
   return loaded.has(font.id);
 }
 
+const failedAt = new Map();
+const RETRY_MS = 30000;
+
 /** Load a font into document.fonts (once). Resolves even on failure (fallback is used). */
 export function loadFont(font) {
   if (loaded.has(font.id)) return Promise.resolve(true);
   if (loading.has(font.id)) return loading.get(font.id);
-  const source = font.buffer ? font.buffer : `url(${new URL(`../fonts/${font.file}`, import.meta.url).href})`;
+  // A font that just failed (offline…) is not fetched again on every keystroke.
+  if (Date.now() - (failedAt.get(font.id) || 0) < RETRY_MS) return Promise.resolve(false);
+  const source = font.buffer ? font.buffer : `url("${new URL(`../fonts/${font.file}`, import.meta.url).href}")`;
   const descriptors = font.weights ? { weight: `${font.weights[0]} ${font.weights[1]}` } : { weight: String(font.fixedWeight || 400) };
   const face = new FontFace(familyOf(font), source, descriptors);
   const p = face
@@ -84,7 +89,10 @@ export function loadFont(font) {
       loaded.add(font.id);
       return true;
     })
-    .catch(() => false)
+    .catch(() => {
+      failedAt.set(font.id, Date.now());
+      return false;
+    })
     .finally(() => loading.delete(font.id));
   loading.set(font.id, p);
   return p;

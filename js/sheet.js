@@ -110,28 +110,43 @@ export function withDpi(src, dpi) {
   return out;
 }
 
-export function notePngBlob(note) {
-  const dataUrl = note.toDataURL('image/png');
-  const bin = atob(dataUrl.slice(dataUrl.indexOf(',') + 1));
-  const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return new Blob([withDpi(bytes, 300)], { type: 'image/png' });
-}
-
-/** Share the PNG on phones (photos, AirPrint…), download it elsewhere. */
-export function savePng(blob, filename) {
-  const file = new File([blob], filename, { type: 'image/png' });
-  const touch = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-  if (touch && navigator.canShare && navigator.canShare({ files: [file] })) {
-    navigator.share({ files: [file] }).catch((err) => {
-      if (!err || err.name !== 'AbortError') download(blob, filename);
-    });
-    return;
+export async function notePngBlob(note) {
+  const blob = await new Promise((resolve, reject) => {
+    note.toBlob((b) => (b ? resolve(b) : reject(new Error('toBlob failed'))), 'image/png');
+  });
+  try {
+    return new Blob([withDpi(new Uint8Array(await blob.arrayBuffer()), 300)], { type: 'image/png' });
+  } catch {
+    return blob;
   }
-  download(blob, filename);
 }
 
-function download(blob, filename) {
+/** Phones and tablets: share sheet (photos, AirPrint…). Touch laptops keep the download. */
+export function prefersShare() {
+  return !!(window.matchMedia && window.matchMedia('(pointer: coarse) and (hover: none)').matches);
+}
+
+export function canShareFile(blob, filename) {
+  try {
+    const file = new File([blob], filename, { type: 'image/png' });
+    return !!(navigator.canShare && navigator.canShare({ files: [file] }));
+  } catch {
+    return false;
+  }
+}
+
+/** Resolves 'shared', 'aborted' (user closed the sheet) or 'blocked' (no gesture / not supported). */
+export async function shareFile(blob, filename) {
+  if (!canShareFile(blob, filename)) return 'blocked';
+  try {
+    await navigator.share({ files: [new File([blob], filename, { type: 'image/png' })] });
+    return 'shared';
+  } catch (err) {
+    return err && err.name === 'AbortError' ? 'aborted' : 'blocked';
+  }
+}
+
+export function download(blob, filename) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;

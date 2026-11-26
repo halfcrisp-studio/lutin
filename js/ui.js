@@ -1,6 +1,6 @@
 // Controls panel. Built once; each control re-syncs from the state on change.
 import { t } from './i18n.js';
-import { favorites, messageText, state, toggleFavorite, update } from './state.js';
+import { MAX_NAMES, SIZE_MAX_PT, SIZE_MIN_PT, favorites, messageText, state, toggleFavorite, update } from './state.js';
 import { UNIVERSES, universePatch } from './universes.js';
 import { PALETTES, resolveColors } from './palettes.js';
 import {
@@ -140,7 +140,7 @@ function namesSection() {
   });
   const add = () => {
     const v = input.value.replace(/\s+/g, ' ').trim();
-    if (!v) return;
+    if (!v || state.names.length >= MAX_NAMES) return;
     if (!state.names.includes(v)) update({ names: [...state.names, v] });
     input.value = '';
     input.focus();
@@ -156,7 +156,13 @@ function namesSection() {
   const favField = field('names.favorites', favList);
   const empty = h('p', { class: 'hint' }, t('names.empty'));
 
+  // Rebuild the chips only when names or favorites change (keeps keyboard focus).
+  let lastKey = null;
   onSync(() => {
+    empty.hidden = state.names.length > 0 || !state.showSignature;
+    const key = `${state.names.join('\n')}|${[...favorites].join('\n')}`;
+    if (key === lastKey) return;
+    lastKey = key;
     list.replaceChildren(
       ...state.names.map((name) => {
         const fav = favorites.has(name);
@@ -200,7 +206,6 @@ function namesSection() {
       ),
     );
     favField.hidden = others.length === 0;
-    empty.hidden = state.names.length > 0 || !state.showSignature;
   });
 
   return section(
@@ -448,6 +453,8 @@ function styleSection() {
   return sec;
 }
 
+const clampPt = (v) => Math.min(SIZE_MAX_PT, Math.max(SIZE_MIN_PT, Math.round(v)));
+
 function layoutSection(hooks) {
   return section(
     'layout',
@@ -479,14 +486,14 @@ function layoutSection(hooks) {
     toggle(
       'layout.autoSize',
       () => state.autoSize,
-      (v) => update(v ? { autoSize: true } : { autoSize: false, sizePt: Math.round(hooks.currentSizePt() || state.sizePt) }),
+      (v) => update(v ? { autoSize: true } : { autoSize: false, sizePt: clampPt(hooks.currentSizePt() || state.sizePt) }),
     ),
     slider({
       labelKey: 'layout.size',
-      min: 10,
-      max: 200,
+      min: SIZE_MIN_PT,
+      max: SIZE_MAX_PT,
       step: 1,
-      get: () => (state.autoSize ? Math.round(hooks.currentSizePt() || state.sizePt) : state.sizePt),
+      get: () => (state.autoSize ? clampPt(hooks.currentSizePt() || state.sizePt) : state.sizePt),
       set: (v) => update({ sizePt: v, autoSize: false }),
       format: (v) => `${v} pt`,
       disabled: () => state.autoSize,

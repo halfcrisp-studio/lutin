@@ -6,6 +6,10 @@ import { DECOR_SETS, FRAME_STYLES, PLACEMENTS } from './decor.js';
 import { FORMATS } from './formats.js';
 import { UNIVERSES, universePatch } from './universes.js';
 
+export const SIZE_MIN_PT = 8;
+export const SIZE_MAX_PT = 300;
+export const MAX_NAMES = 12;
+
 export const DEFAULTS = {
   ...universePatch('lutins'),
   names: ['Lutin Farceur'],
@@ -42,7 +46,7 @@ function sanitize(s) {
     decorSet: oneOf(s.decorSet, DECOR_SETS.map((x) => x.id), d.decorSet),
     decorPlacement: oneOf(s.decorPlacement, PLACEMENTS, d.decorPlacement),
     frameStyle: oneOf(s.frameStyle, FRAME_STYLES, d.frameStyle),
-    names: Array.isArray(s.names) ? s.names.filter((n) => typeof n === 'string').slice(0, 12) : d.names,
+    names: Array.isArray(s.names) ? s.names.filter((n) => typeof n === 'string').slice(0, MAX_NAMES) : d.names,
     showSignature: s.showSignature !== false,
     text: typeof s.text === 'string' ? s.text : null,
     singleColor: typeof s.singleColor === 'string' ? s.singleColor : d.singleColor,
@@ -56,7 +60,7 @@ function sanitize(s) {
     orientation: oneOf(s.orientation, ['portrait', 'landscape'], d.orientation),
     copies: s.copies === 2 ? 2 : 1,
     autoSize: s.autoSize !== false,
-    sizePt: num(s.sizePt, 10, 200, d.sizePt),
+    sizePt: num(s.sizePt, SIZE_MIN_PT, SIZE_MAX_PT, d.sizePt),
     lineHeight: num(s.lineHeight, 0.9, 2.2, d.lineHeight),
     align: oneOf(s.align, ['center', 'left'], d.align),
     frame: !!s.frame,
@@ -89,7 +93,8 @@ export function update(patch) {
 
 // ---- Favorite names ----
 
-export const favorites = new Set(loadJSON('favorites', []).filter((n) => typeof n === 'string'));
+const savedFavorites = loadJSON('favorites', []);
+export const favorites = new Set(Array.isArray(savedFavorites) ? savedFavorites.filter((n) => typeof n === 'string') : []);
 
 export function toggleFavorite(name) {
   if (favorites.has(name)) favorites.delete(name);

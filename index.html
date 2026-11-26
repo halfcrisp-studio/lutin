@@ -42,6 +42,17 @@
     <button type="button" class="btn-action btn-secondary" id="btn-image" data-i18n="action.image">Enregistrer l'image</button>
   </div>
 
+  <dialog id="image-dialog" class="image-dialog">
+    <h2 data-i18n="image.ready">Ton image est prête</h2>
+    <img id="image-dialog-img" alt="">
+    <p class="hint" data-i18n="image.hint">Appuie longuement sur l'image pour l'enregistrer, ou :</p>
+    <div class="row wrap">
+      <button type="button" class="btn" id="image-share" data-i18n="image.share">Partager</button>
+      <button type="button" class="btn" id="image-download" data-i18n="image.download">Télécharger</button>
+      <button type="button" class="btn btn-quiet" id="image-close" data-i18n="image.close">Fermer</button>
+    </div>
+  </dialog>
+
   <div id="print-root" aria-hidden="true"><canvas id="print-canvas" width="1" height="1"></canvas></div>
 
   <noscript><p class="warn">Cette page a besoin de JavaScript pour dessiner la feuille.</p></noscript>

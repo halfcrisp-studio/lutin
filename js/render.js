@@ -79,7 +79,8 @@ export function buildScene(state) {
   };
 
   const upper = (s) => (state.uppercase ? s.toLocaleUpperCase('fr-FR') : s);
-  const paragraphs = trimEmpty(upper(state.text || '').replace(/\r\n?/g, '\n').split('\n').map((p) => p.trim()));
+  const text = upper((state.text || '').normalize('NFC'));
+  const paragraphs = trimEmpty(text.replace(/\r\n?/g, '\n').split('\n').map((p) => p.trim()));
   const signature = state.showSignature
     ? signatureUnits(state.names, t('signature.prefix'), t('signature.and')).map(upper)
     : [];
