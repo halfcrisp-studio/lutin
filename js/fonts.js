@@ -4,7 +4,8 @@ import { idbDelete, idbGetAll, idbPut } from './storage.js';
 
 // group: bubble | round | hand | reading | classic | theme
 // weights: [min, max] for variable fonts; outline: thick enough for the outline mode
-// (for variable fonts, from outlineMin weight); connected: script letters that join.
+// (for variable fonts, from outlineMin weight); connected: script letters that join;
+// noEllipsis: the font has no "…" glyph (three dots are drawn instead).
 export const FONTS = [
   { id: 'luckiest', label: 'Luckiest Guy', file: 'luckiest-guy-400.woff2', group: 'bubble', outline: true },
   { id: 'titan', label: 'Titan One', file: 'titan-one-400.woff2', group: 'bubble', outline: true },
@@ -25,6 +26,9 @@ export const FONTS = [
   { id: 'christmas', label: 'Mountains of Christmas', file: 'mountains-of-christmas-700.woff2', group: 'theme', fixedWeight: 700 },
   { id: 'cinzel', label: 'Cinzel Decorative', file: 'cinzel-decorative-700.woff2', group: 'theme', fixedWeight: 700 },
   { id: 'bangers', label: 'Bangers', file: 'bangers-400.woff2', group: 'theme', outline: true },
+  { id: 'freckle', label: 'Freckle Face', file: 'freckle-face-400.woff2', group: 'theme', outline: true },
+  { id: 'hennypenny', label: 'Henny Penny', file: 'henny-penny-400.woff2', group: 'theme', noEllipsis: true },
+  { id: 'bungee', label: 'Bungee', file: 'bungee-400.woff2', group: 'theme', outline: true },
 ];
 
 export const FONT_GROUPS = ['bubble', 'round', 'hand', 'reading', 'classic', 'theme', 'custom'];

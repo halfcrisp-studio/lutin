@@ -1,6 +1,7 @@
 // Controls panel. Built once; each control re-syncs from the state on change.
 import { t } from './i18n.js';
-import { MAX_NAMES, SIZE_MAX_PT, SIZE_MIN_PT, favorites, messageText, state, toggleFavorite, update } from './state.js';
+import { SIZE_MAX_PT, SIZE_MIN_PT, addElf, messageText, removeElf, state, toggleSigner, update } from './state.js';
+import { formatNames } from './signature.js';
 import { UNIVERSES, universePatch } from './universes.js';
 import { PALETTES, resolveColors } from './palettes.js';
 import {
@@ -139,9 +140,8 @@ function namesSection() {
     'aria-label': t('names.placeholder'),
   });
   const add = () => {
-    const v = input.value.replace(/\s+/g, ' ').trim();
-    if (!v || state.names.length >= MAX_NAMES) return;
-    if (!state.names.includes(v)) update({ names: [...state.names, v] });
+    if (!input.value.trim()) return;
+    addElf(input.value);
     input.value = '';
     input.focus();
   };
@@ -152,60 +152,29 @@ function namesSection() {
     }
   });
   const list = h('div', { class: 'chips' });
-  const favList = h('div', { class: 'chips' });
-  const favField = field('names.favorites', favList);
   const empty = h('p', { class: 'hint' }, t('names.empty'));
+  const preview = h('p', { class: 'signature-preview' });
 
-  // Rebuild the chips only when names or favorites change (keeps keyboard focus).
+  // Rebuild the chips only when the collection or the signers change (keeps keyboard focus).
   let lastKey = null;
   onSync(() => {
-    empty.hidden = state.names.length > 0 || !state.showSignature;
-    const key = `${state.names.join('\n')}|${[...favorites].join('\n')}`;
+    empty.hidden = state.signers.length > 0 || !state.showSignature;
+    preview.hidden = !state.showSignature || state.signers.length === 0;
+    preview.textContent = `${t('signature.prefix')} ${formatNames(state.signers, t('signature.and'))}`;
+    const key = `${state.collection.join('\n')}|${state.signers.join('\n')}`;
     if (key === lastKey) return;
     lastKey = key;
     list.replaceChildren(
-      ...state.names.map((name) => {
-        const fav = favorites.has(name);
-        const favLabel = t(fav ? 'names.unfavorite' : 'names.favorite', { name });
+      ...state.collection.map((name) => {
+        const on = state.signers.includes(name);
         return h(
           'span',
-          { class: 'name-chip' },
-          h(
-            'button',
-            { type: 'button', class: 'icon-btn star', 'aria-pressed': String(fav), title: favLabel, 'aria-label': favLabel, onclick: () => toggleFavorite(name) },
-            fav ? '★' : '☆',
-          ),
-          h('span', { class: 'name-text' }, name),
-          h(
-            'button',
-            {
-              type: 'button',
-              class: 'icon-btn',
-              title: t('names.remove', { name }),
-              'aria-label': t('names.remove', { name }),
-              onclick: () => update({ names: state.names.filter((n) => n !== name) }),
-            },
-            '×',
-          ),
+          { class: `elf-chip${on ? ' is-on' : ''}` },
+          h('button', { type: 'button', class: 'elf-btn', 'aria-pressed': String(on), title: t(on ? 'names.unsign' : 'names.sign', { name }), onclick: () => toggleSigner(name) }, on ? `✓ ${name}` : name),
+          h('button', { type: 'button', class: 'icon-btn', title: t('names.remove', { name }), 'aria-label': t('names.remove', { name }), onclick: () => removeElf(name) }, '×'),
         );
       }),
     );
-    const others = [...favorites].filter((n) => !state.names.includes(n));
-    favList.replaceChildren(
-      ...others.map((name) =>
-        h(
-          'span',
-          { class: 'name-chip is-fav' },
-          h('button', { type: 'button', class: 'chip-add', onclick: () => update({ names: [...state.names, name] }) }, `+ ${name}`),
-          h(
-            'button',
-            { type: 'button', class: 'icon-btn', title: t('names.forget', { name }), 'aria-label': t('names.forget', { name }), onclick: () => toggleFavorite(name) },
-            '×',
-          ),
-        ),
-      ),
-    );
-    favField.hidden = others.length === 0;
   });
 
   return section(
@@ -213,9 +182,10 @@ function namesSection() {
     'section.names',
     true,
     h('div', { class: 'row' }, input, h('button', { type: 'button', class: 'btn', onclick: add }, t('names.add'))),
+    h('p', { class: 'hint' }, t('names.hint')),
     list,
     empty,
-    favField,
+    preview,
     toggle('names.showSignature', () => state.showSignature, (v) => update({ showSignature: v })),
   );
 }
@@ -537,6 +507,30 @@ function setPreview(set) {
   return { c, draw };
 }
 
+const FRAME_SWATCHES = ['#C62828', '#1B5E20', '#1565C0', '#9C7A00', '#D81B60', '#6A1B9A', '#111111'];
+
+function frameColorField() {
+  const row = h('div', { class: 'row wrap' });
+  const auto = h('button', { type: 'button', class: 'seg-btn', onclick: () => update({ frameColor: 'auto' }) }, t('decor.frameColor.auto'));
+  row.append(auto);
+  const swatches = FRAME_SWATCHES.map((c) => {
+    const b = h('button', { type: 'button', class: 'swatch-btn', style: { background: c }, title: c, 'aria-label': c, onclick: () => update({ frameColor: c }) });
+    row.append(b);
+    return [c, b];
+  });
+  const custom = h('input', { type: 'color', class: 'color-input', title: t('decor.frameColor.custom'), 'aria-label': t('decor.frameColor.custom'), oninput: (e) => update({ frameColor: e.target.value.toUpperCase() }) });
+  row.append(custom);
+  onSync(() => {
+    const v = state.frameColor;
+    auto.setAttribute('aria-pressed', String(v === 'auto'));
+    for (const [c, b] of swatches) b.setAttribute('aria-pressed', String(v.toUpperCase() === c));
+    const isCustom = v !== 'auto' && !FRAME_SWATCHES.includes(v.toUpperCase());
+    custom.classList.toggle('is-on', isCustom);
+    if (v !== 'auto') custom.value = v.toLowerCase();
+  });
+  return field('decor.frameColor', row);
+}
+
 function decorSection() {
   const setGrid = h('div', { class: 'set-grid' });
   const previews = [];
@@ -570,6 +564,7 @@ function decorSection() {
       ),
       () => state.frame,
     ),
+    showIf(frameColorField(), () => state.frame),
     toggle('decor.decor', () => state.decor, (v) => update({ decor: v })),
     showIf(field('decor.set', setGrid), () => state.decor),
     showIf(

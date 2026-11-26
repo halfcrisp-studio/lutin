@@ -6,7 +6,8 @@ Vérifié sans appareil : rendu des 6 univers et des options (planche `dev/galle
 - iPhone, Safari : ouvrir le site, ajouter deux lutins, écrire un message, toucher « Imprimer » → la fenêtre d'impression s'ouvre (AirPrint) et l'aperçu montre une seule feuille.
 - iPhone : « Enregistrer l'image » → la feuille de partage s'ouvre, « Enregistrer l'image » la met dans Photos.
 - Android, Chrome : les deux mêmes boutons.
-- Fermer et rouvrir le site : les lutins favoris (étoile) et le dernier message sont toujours là.
+- Ajouter 4 lutins, en toucher 2 : la signature les cite dans l'ordre des touchers.
+- Fermer et rouvrir le site : la collection de lutins, ceux qui signent et le dernier message sont toujours là.
 
 ## Séance 2 : vraie imprimante (10 min)
 - A4 portrait avec cadre festif : rien n'est rogné sur les bords, pas d'URL ni de date imprimées.

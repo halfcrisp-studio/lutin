@@ -6,16 +6,18 @@ import { loadAllFonts } from '../js/fonts.js';
 import { t } from '../js/i18n.js';
 
 const example = t('message.example');
-const base = { ...DEFAULTS, text: example, frame: true, decor: true, names: ['Lutin Farceur', 'Biscotte'] };
+const base = { ...DEFAULTS, text: example, frame: true, decor: true, signers: ['Lutin Farceur', 'Biscotte'] };
 
 const variants = [
   ['Lutins de Noël', { ...base, ...universePatch('lutins') }],
-  ['Journée Grognon', { ...base, ...universePatch('grognon'), names: ['Grincheux'] }],
+  ['Journée Grognon', { ...base, ...universePatch('grognon'), signers: ['Grincheux'] }],
   ['Académie de Magie', { ...base, ...universePatch('magie') }],
   ['Idoles contre les Ombres', { ...base, ...universePatch('idoles') }],
-  ['Chiots Sauveteurs', { ...base, ...universePatch('chiots'), names: ['Pompon', 'Caramel', 'Filou'] }],
+  ['Chiots Sauveteurs', { ...base, ...universePatch('chiots'), signers: ['Pompon', 'Caramel', 'Filou'] }],
   ['Héros Araignée', { ...base, ...universePatch('araignee') }],
-  ['Contour à colorier', { ...base, outline: true, frame: false }],
+  ["Contour à colorier, cadre sucre d'orge", { ...base, outline: true, frameStyle: 'candy' }],
+  ["Cadre sucre d'orge couleurs du texte", { ...base, frameStyle: 'candy', frameColor: 'auto' }],
+  ["Cadre sucre d'orge bleu, paysage", { ...base, orientation: 'landscape', frameStyle: 'candy', frameColor: '#1565C0', paletteId: 'givre', decorSet: 'flocons' }],
   ['A5 paysage, Pacifico, arc-en-ciel par mot', { ...base, format: 'a5', orientation: 'landscape', fontId: 'pacifico', paletteId: 'arc', colorMode: 'word', decorSet: 'cadeaux', decorPlacement: 'edges', frame: false }],
   ['Andika MAJUSCULES, noir, sans décor', { ...base, fontId: 'andika', uppercase: true, paletteId: 'noir', decor: false, frame: false, handmade: false }],
   ['Pas de lutin, haut et bas', { ...base, decorSet: 'empreintes', decorPlacement: 'edges', frameStyle: 'dots', fontId: 'fredoka' }],

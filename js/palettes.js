@@ -14,7 +14,7 @@ export const PALETTES = [
   { id: 'bonbons', colors: ['#E91E63', '#E64A19', '#00897B', '#7B1FA2'] },
   { id: 'heros', colors: ['#D50000', '#0D47A1', '#E65100', '#212121'] },
   { id: 'araignee', colors: ['#C62828', '#1565C0', INK_BLACK] },
-  { id: 'grognon', colors: ['#4C8C00', '#C62828', INK_BLACK] },
+  { id: 'grognon', colors: ['#4C8C00', '#2E7D32', '#3E7B00', '#1B5E20'] },
   { id: 'magie', colors: ['#7B1E2B', '#9C6B00', '#1A237E', '#00695C'] },
   { id: 'idoles', colors: ['#7B1FA2', '#D6007A', '#00838F', INK_BLACK] },
   { id: 'chiots', colors: ['#1E40AF', '#D32F2F', '#E65100', '#B45309'] },

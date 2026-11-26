@@ -4,7 +4,7 @@
 import { REF_SIZE, layoutText } from './layout.js';
 import { effectiveWeight, familyOf, fontString, getFont, isLoaded, supportsOutline } from './fonts.js';
 import { resolveColors } from './palettes.js';
-import { colorSequence, mulberry32 } from './color.js';
+import { colorSequence, ensureContrast, mulberry32 } from './color.js';
 import { signatureUnits } from './signature.js';
 import { buildDecor, buildFrame, drawDecorItem, drawFrame, getDecorSet } from './decor.js';
 import { noteSizePx, ptToPx } from './formats.js';
@@ -61,7 +61,8 @@ export function buildScene(state) {
   let frame = null;
   let inner;
   if (state.frame) {
-    frame = buildFrame({ page, short, style: state.frameStyle, colors, set, seed });
+    const frameColors = state.frameColor && state.frameColor !== 'auto' ? [ensureContrast(state.frameColor)] : colors;
+    frame = buildFrame({ page, short, style: state.frameStyle, colors: frameColors, set, seed, outline: state.outline });
     inner = frame.inner;
   } else {
     const m = short * 0.055;
@@ -78,11 +79,16 @@ export function buildScene(state) {
     h: inner.h - decor.inset.top - decor.inset.bottom - 2 * pad,
   };
 
-  const upper = (s) => (state.uppercase ? s.toLocaleUpperCase('fr-FR') : s);
-  const text = upper((state.text || '').normalize('NFC'));
+  // Text as drawn: uppercase option, and "…" spelled out for fonts that lack it.
+  const prepare = (s) => {
+    let out = state.uppercase ? s.toLocaleUpperCase('fr-FR') : s;
+    if (font.noEllipsis) out = out.replace(/…/g, '...');
+    return out;
+  };
+  const text = prepare((state.text || '').normalize('NFC'));
   const paragraphs = trimEmpty(text.replace(/\r\n?/g, '\n').split('\n').map((p) => p.trim()));
   const signature = state.showSignature
-    ? signatureUnits(state.names, t('signature.prefix'), t('signature.and')).map(upper)
+    ? signatureUnits(state.signers, t('signature.prefix'), t('signature.and')).map(prepare)
     : [];
 
   const m = measurerFor(font, weight);

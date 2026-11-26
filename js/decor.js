@@ -19,7 +19,7 @@ export const DECOR_SETS = [
   { id: 'bonbons', icons: ['lollipop', 'candy-cane', 'cookie', 'heart'] },
   { id: 'fleurs', icons: ['flower-2', 'heart', 'sparkles'] },
 ];
-export const FRAME_STYLES = ['simple', 'double', 'dots', 'festive'];
+export const FRAME_STYLES = ['candy', 'simple', 'double', 'dots', 'festive'];
 export const PLACEMENTS = ['corners', 'edges', 'scatter'];
 
 const ICON_STROKE = 1.6; // line width inside the 24-unit icon box
@@ -31,13 +31,25 @@ export function getDecorSet(id) {
 
 // ---------- Geometry ----------
 
-/** Frame around the sheet. Returns the frame and the inner area left for content. */
-export function buildFrame({ page, short, style, colors, set, seed }) {
+/**
+ * Frame around the sheet. `colors` are the frame colors (the text palette or the
+ * color picked for the frame). Returns the frame and the inner area left for content.
+ */
+export function buildFrame({ page, short, style, colors, set, seed, outline }) {
   // At least 7 mm from the edge: home printers cannot print the last few millimeters.
   const inset = Math.max(short * 0.035, 7 * MM);
   const rect = { x: inset, y: inset, w: page.w - 2 * inset, h: page.h - 2 * inset };
   const lw = short * 0.0045;
   const frame = { style, rect, lw, radius: short * 0.03, color: colors[0], icons: [] };
+  if (style === 'candy') {
+    // Candy cane: diagonal stripes in a band, colored stripes between white ones.
+    frame.band = short * 0.024;
+    frame.stripes = colors.slice(0, 2);
+    frame.outline = !!outline;
+    const pad = frame.band + short * 0.035;
+    frame.inner = { x: rect.x + pad, y: rect.y + pad, w: rect.w - 2 * pad, h: rect.h - 2 * pad };
+    return frame;
+  }
   if (style === 'festive') {
     const size = short * 0.05;
     const next = colorSequence(colors, seed + 303);
@@ -229,8 +241,7 @@ export function drawDecorItem(ctx, item) {
   else drawIcon(ctx, item);
 }
 
-function roundRectPath(ctx, { x, y, w, h }, r) {
-  ctx.beginPath();
+function addRoundRect(ctx, { x, y, w, h }, r) {
   ctx.moveTo(x + r, y);
   ctx.arcTo(x + w, y, x + w, y + h, r);
   ctx.arcTo(x + w, y + h, x, y + h, r);
@@ -239,7 +250,57 @@ function roundRectPath(ctx, { x, y, w, h }, r) {
   ctx.closePath();
 }
 
+function roundRectPath(ctx, rect, r) {
+  ctx.beginPath();
+  addRoundRect(ctx, rect, r);
+}
+
+function drawCandy(ctx, f) {
+  const { rect, radius, band } = f;
+  const inner = { x: rect.x + band, y: rect.y + band, w: rect.w - 2 * band, h: rect.h - 2 * band };
+  const innerRadius = Math.max(0, radius - band);
+  const stripe = band * 0.85; // horizontal width of one stripe
+  ctx.save();
+  ctx.beginPath();
+  addRoundRect(ctx, rect, radius);
+  addRoundRect(ctx, inner, innerRadius);
+  ctx.clip('evenodd');
+  ctx.lineWidth = f.lw * 0.6;
+  ctx.lineJoin = 'round';
+  let i = 0;
+  for (let k = -rect.h; k < rect.w + stripe; k += stripe * 2) {
+    const x0 = rect.x + k;
+    ctx.beginPath();
+    ctx.moveTo(x0, rect.y);
+    ctx.lineTo(x0 + stripe, rect.y);
+    ctx.lineTo(x0 + stripe + rect.h, rect.y + rect.h);
+    ctx.lineTo(x0 + rect.h, rect.y + rect.h);
+    ctx.closePath();
+    const color = f.stripes[i++ % f.stripes.length];
+    if (f.outline) {
+      ctx.strokeStyle = color;
+      ctx.stroke();
+    } else {
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+  }
+  ctx.restore();
+  ctx.save();
+  ctx.strokeStyle = f.stripes[0];
+  ctx.lineWidth = f.lw * 0.6;
+  roundRectPath(ctx, rect, radius);
+  ctx.stroke();
+  roundRectPath(ctx, inner, innerRadius);
+  ctx.stroke();
+  ctx.restore();
+}
+
 export function drawFrame(ctx, f) {
+  if (f.style === 'candy') {
+    drawCandy(ctx, f);
+    return;
+  }
   ctx.save();
   ctx.strokeStyle = f.color;
   ctx.lineJoin = 'round';

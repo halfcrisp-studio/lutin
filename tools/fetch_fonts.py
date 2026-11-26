@@ -31,6 +31,9 @@ FONTS = [
     ("mountains-of-christmas", 700),
     ("cinzel-decorative", 700),
     ("bangers", 400),
+    ("freckle-face", 400),
+    ("henny-penny", 400),
+    ("bungee", 400),
 ]
 
 

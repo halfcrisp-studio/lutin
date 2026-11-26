@@ -8,11 +8,13 @@ import { UNIVERSES, universePatch } from './universes.js';
 
 export const SIZE_MIN_PT = 8;
 export const SIZE_MAX_PT = 300;
-export const MAX_NAMES = 12;
+export const MAX_COLLECTION = 40;
 
 export const DEFAULTS = {
   ...universePatch('lutins'),
-  names: ['Lutin Farceur'],
+  // The family's elves; the ones in `signers` sign today's note, in that order.
+  collection: ['Lutin Farceur', 'Biscotte'],
+  signers: ['Lutin Farceur'],
   showSignature: true,
   text: null, // null = example message
   singleColor: '#C62828',
@@ -29,28 +31,44 @@ export const DEFAULTS = {
   sizePt: 48,
   lineHeight: 1.2,
   align: 'center',
-  frame: false,
-  decor: true,
 };
 
 const oneOf = (v, list, d) => (list.includes(v) ? v : d);
 const num = (v, min, max, d) => (typeof v === 'number' && Number.isFinite(v) ? Math.min(max, Math.max(min, v)) : d);
+const names = (v) => (Array.isArray(v) ? [...new Set(v.filter((n) => typeof n === 'string' && n.trim()))] : null);
+const isColor = (v) => typeof v === 'string' && /^#[0-9a-fA-F]{6}$/.test(v);
+
+/** Older saves had `names` (signers) and starred favorites: they become the collection. */
+function migrate(s) {
+  if (!Array.isArray(s.collection) && Array.isArray(s.names)) {
+    const favs = loadJSON('favorites', []);
+    s.collection = [...s.names, ...(Array.isArray(favs) ? favs : [])];
+    s.signers = s.names;
+  }
+  return s;
+}
 
 function sanitize(s) {
   const d = DEFAULTS;
+  const collection = (names(s.collection) || d.collection).slice(0, MAX_COLLECTION);
+  const signers = (names(s.signers) || d.signers).filter((n) => collection.includes(n));
   return {
     universe: oneOf(s.universe, UNIVERSES.map((u) => u.id), d.universe),
     paletteId: oneOf(s.paletteId, PALETTES.map((p) => p.id), d.paletteId),
     fontId: typeof s.fontId === 'string' ? s.fontId : d.fontId,
     weight: typeof s.weight === 'number' ? s.weight : null,
+    decor: s.decor !== false,
     decorSet: oneOf(s.decorSet, DECOR_SETS.map((x) => x.id), d.decorSet),
     decorPlacement: oneOf(s.decorPlacement, PLACEMENTS, d.decorPlacement),
+    frame: !!s.frame,
     frameStyle: oneOf(s.frameStyle, FRAME_STYLES, d.frameStyle),
-    names: Array.isArray(s.names) ? s.names.filter((n) => typeof n === 'string').slice(0, MAX_NAMES) : d.names,
+    frameColor: s.frameColor === 'auto' || isColor(s.frameColor) ? s.frameColor : d.frameColor,
+    collection,
+    signers,
     showSignature: s.showSignature !== false,
     text: typeof s.text === 'string' ? s.text : null,
-    singleColor: typeof s.singleColor === 'string' ? s.singleColor : d.singleColor,
-    customColors: Array.isArray(s.customColors) && s.customColors.length ? s.customColors.slice(0, 5) : d.customColors,
+    singleColor: isColor(s.singleColor) ? s.singleColor : d.singleColor,
+    customColors: Array.isArray(s.customColors) && s.customColors.some(isColor) ? s.customColors.filter(isColor).slice(0, 5) : d.customColors,
     colorMode: oneOf(s.colorMode, ['letter', 'word'], d.colorMode),
     seed: num(s.seed, 0, 1e9, d.seed),
     outline: !!s.outline,
@@ -63,13 +81,12 @@ function sanitize(s) {
     sizePt: num(s.sizePt, SIZE_MIN_PT, SIZE_MAX_PT, d.sizePt),
     lineHeight: num(s.lineHeight, 0.9, 2.2, d.lineHeight),
     align: oneOf(s.align, ['center', 'left'], d.align),
-    frame: !!s.frame,
-    decor: s.decor !== false,
   };
 }
 
 const saved = loadJSON('state', null);
-export const state = sanitize(saved ? { ...DEFAULTS, ...saved } : DEFAULTS);
+const usable = saved && typeof saved === 'object' && !Array.isArray(saved);
+export const state = sanitize(usable ? migrate({ ...DEFAULTS, ...saved }) : DEFAULTS);
 
 /** The message actually shown: the example until the user types their own. */
 export function messageText() {
@@ -91,14 +108,23 @@ export function update(patch) {
   saveTimer = setTimeout(() => saveJSON('state', state), 300);
 }
 
-// ---- Favorite names ----
+// ---- Collection of elves ----
 
-const savedFavorites = loadJSON('favorites', []);
-export const favorites = new Set(Array.isArray(savedFavorites) ? savedFavorites.filter((n) => typeof n === 'string') : []);
+export function addElf(name) {
+  const n = String(name).replace(/\s+/g, ' ').trim();
+  if (!n) return;
+  const collection = state.collection.includes(n) ? state.collection : [...state.collection, n].slice(0, MAX_COLLECTION);
+  // A newly added elf signs right away (one more tap removes it).
+  const signers = state.signers.includes(n) || !collection.includes(n) ? state.signers : [...state.signers, n];
+  update({ collection, signers });
+}
 
-export function toggleFavorite(name) {
-  if (favorites.has(name)) favorites.delete(name);
-  else favorites.add(name);
-  saveJSON('favorites', [...favorites]);
-  for (const fn of listeners) fn(state, {});
+/** Tap on an elf: signs or stops signing (signature order = order of taps). */
+export function toggleSigner(name) {
+  const signers = state.signers.includes(name) ? state.signers.filter((n) => n !== name) : [...state.signers, name];
+  update({ signers });
+}
+
+export function removeElf(name) {
+  update({ collection: state.collection.filter((n) => n !== name), signers: state.signers.filter((n) => n !== name) });
 }

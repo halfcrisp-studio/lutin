@@ -27,6 +27,13 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Contact des mentions légales : page Issues du dépôt. Code : tous droits réservés.
 - Apparence (planche du 26/11) : mode clair = style A « Papier crème » (fond papier, rouge Noël, titre Fredoka) ; mode sombre = style B « Nuit de Noël » (bleu nuit étoilé, touches dorées, titre Mountains of Christmas, feuille qui brille). Le site suit le réglage de l'appareil ; les cartes de réglages restent blanches dans les deux modes. Les pages légales suivent aussi les deux modes.
 
+## Demandé le 26/11 (2e série)
+- Lutins : on entre toute sa collection une fois, puis on touche ceux qui signent ; l'ordre de la signature suit l'ordre des touchers. Un lutin ajouté signe tout de suite. Les anciennes sauvegardes (noms + favoris) deviennent la collection.
+- Cadre sucre d'orge : rayures en biais dans une bande ; couleur au choix (« comme le texte » = les deux premières couleurs du jeu, ex. rouge et vert pour Sapin) ; en mode contour, les rayures se colorient. Une couleur de cadre peut être choisie pour tous les styles de cadre.
+- Journée Grognon : uniquement des verts (palette, cadre, dessins).
+- Choisir un univers règle tout d'un coup : police, couleurs, cadre (oui/non, style, couleur), habillage (oui/non, dessins, placement).
+- Polices des univers : Luckiest Guy (Lutins), Freckle Face (Grognon), Henny Penny (Magie), Bungee (Idoles), Titan One (Chiots), Bangers (Héros Araignée). Toutes ont les accents français ; Henny Penny n'a pas « … » (remplacé par trois points).
+
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
 - Un seul calcul de mise en page à 300 dpi : aperçu, impression et PNG sont la même scène, donc les mêmes retours à la ligne. Les mots ne sont jamais coupés ; la ponctuation française espacée reste collée à son mot ; un nom de lutin n'est jamais coupé.
