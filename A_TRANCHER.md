@@ -5,5 +5,7 @@
 
 3. **Réglages de chaque univers** (provisoires) : Lutins sans cadre (le sucre d'orge est prêt si on l'active) ; Grognon cadre simple vert ; Magie cadre double ; Idoles sans cadre, notes de musique tout autour ; Chiots pointillés, pattes haut et bas ; Héros Araignée cadre simple, toiles dans les coins. Reco : activer le cadre sucre d'orge pour Lutins de Noël.
 
+4. **Pastels** (provisoire) : couleur claire + trait plus foncé de la même teinte, pour rester lisible. Options : a) garder ; b) pastels un peu plus soutenus sans trait.
+
 ## Tranché
 Voir [DECISIONS.md](DECISIONS.md).

@@ -12,21 +12,15 @@ LIC = OUT / "licenses"
 
 # (fontsource id, weight or "vf")
 FONTS = [
-    ("luckiest-guy", 400),
     ("titan-one", 400),
     ("chewy", 400),
-    ("fredoka", "vf"),
-    ("baloo-2", "vf"),
-    ("comfortaa", "vf"),
+    ("fredoka", "vf"),  # interface headings only
     ("patrick-hand", 400),
-    ("gochi-hand", 400),
-    ("caveat", "vf"),
     ("shadows-into-light", 400),
     ("andika", 400),
     ("dancing-script", "vf"),
     ("pacifico", 400),
     ("lobster", 400),
-    ("great-vibes", 400),
     ("playfair-display", "vf"),
     ("mountains-of-christmas", 700),
     ("cinzel-decorative", 700),

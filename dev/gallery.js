@@ -20,8 +20,10 @@ const variants = [
   ["Cadre sucre d'orge bleu, paysage", { ...base, orientation: 'landscape', frameStyle: 'candy', frameColor: '#1565C0', paletteId: 'givre', decorSet: 'flocons' }],
   ['A5 paysage, Pacifico, arc-en-ciel par mot', { ...base, format: 'a5', orientation: 'landscape', fontId: 'pacifico', paletteId: 'arc', colorMode: 'word', decorSet: 'cadeaux', decorPlacement: 'edges', frame: false }],
   ['Andika MAJUSCULES, noir, sans décor', { ...base, fontId: 'andika', uppercase: true, paletteId: 'noir', decor: false, frame: false, handmade: false }],
-  ['Pas de lutin, haut et bas', { ...base, decorSet: 'empreintes', decorPlacement: 'edges', frameStyle: 'dots', fontId: 'fredoka' }],
-  ['Licorne tout autour, Comfortaa fine', { ...base, paletteId: 'licorne', decorSet: 'licorne', decorPlacement: 'scatter', fontId: 'comfortaa', weight: 300, frame: false }],
+  ['Pas de lutin, haut et bas', { ...base, decorSet: 'empreintes', decorPlacement: 'edges', frameStyle: 'dots', fontId: 'patrick' }],
+  ['Licorne tout autour, Shadows Into Light', { ...base, paletteId: 'licorne', decorSet: 'licorne', decorPlacement: 'scatter', fontId: 'shadows', frame: false }],
+  ['Pastel, Titan One, sucre d’orge', { ...base, paletteId: 'pastel', frameStyle: 'candy', decorSet: 'fleurs' }],
+  ['Macarons, Chewy, contour', { ...base, paletteId: 'macarons', fontId: 'chewy', outline: true, frame: false, decorSet: 'bonbons' }],
   ['Texte long, A4 paysage', { ...base, orientation: 'landscape', fontId: 'christmas', text: `${example}\n\nIndice : regardez près de quelque chose qui brille… et n'oubliez pas de dire merci au sapin !`, frameStyle: 'double' }],
 ];
 

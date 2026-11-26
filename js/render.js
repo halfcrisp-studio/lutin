@@ -3,7 +3,7 @@
 // so the preview, the print sheet and the PNG are the same picture.
 import { REF_SIZE, layoutText } from './layout.js';
 import { effectiveWeight, familyOf, fontString, getFont, isLoaded, supportsOutline } from './fonts.js';
-import { resolveColors } from './palettes.js';
+import { resolveInk } from './palettes.js';
 import { colorSequence, ensureContrast, mulberry32 } from './color.js';
 import { signatureUnits } from './signature.js';
 import { buildDecor, buildFrame, drawDecorItem, drawFrame, getDecorSet } from './decor.js';
@@ -54,22 +54,32 @@ export function buildScene(state) {
   const short = Math.min(page.w, page.h);
   const font = getFont(state.fontId);
   const weight = effectiveWeight(font, state.weight);
-  const colors = resolveColors(state);
+  const ink = resolveInk(state);
+  const colors = ink.fills;
   const seed = state.seed | 0;
   const set = getDecorSet(state.decorSet);
 
   let frame = null;
   let inner;
   if (state.frame) {
-    const frameColors = state.frameColor && state.frameColor !== 'auto' ? [ensureContrast(state.frameColor)] : colors;
-    frame = buildFrame({ page, short, style: state.frameStyle, colors: frameColors, set, seed, outline: state.outline });
+    const picked = state.frameColor && state.frameColor !== 'auto' ? [ensureContrast(state.frameColor)] : null;
+    frame = buildFrame({
+      page,
+      short,
+      style: state.frameStyle,
+      colors: picked || ink.lines,
+      fills: picked || ink.fills,
+      set,
+      seed,
+      outline: state.outline,
+    });
     inner = frame.inner;
   } else {
     const m = short * 0.055;
     inner = { x: m, y: m, w: page.w - 2 * m, h: page.h - 2 * m };
   }
   let decor = { items: [], inset: { top: 0, right: 0, bottom: 0, left: 0 } };
-  if (state.decor) decor = buildDecor({ inner, short, set, placement: state.decorPlacement, colors, seed });
+  if (state.decor) decor = buildDecor({ inner, short, set, placement: state.decorPlacement, colors: ink.lines, seed });
 
   const pad = short * 0.01;
   const box = {
@@ -107,6 +117,7 @@ export function buildScene(state) {
 
   const runs = buildRuns(layout, {
     colors,
+    border: ink.pastel ? new Map(ink.fills.map((c, i) => [c, ink.lines[i]])) : null,
     mode: state.colorMode,
     seed,
     handmade: !!state.handmade,
@@ -119,6 +130,7 @@ export function buildScene(state) {
     font,
     weight,
     outline: !!state.outline && supportsOutline(font, weight),
+    pastel: ink.pastel,
     runs,
     frame,
     decor: decor.items,
@@ -171,6 +183,8 @@ function buildRuns(layout, o) {
       }
     }
   }
+  // Pastel letters get a thin border in a darker shade of their own color.
+  if (o.border) for (const r of runs) r.border = o.border.get(r.color) || null;
   return runs;
 }
 
@@ -205,11 +219,18 @@ export function drawScene(ctx, scene, scale) {
       y = 0;
     }
     if (scene.outline) {
-      ctx.strokeStyle = r.color;
+      ctx.strokeStyle = r.border || r.color;
       ctx.strokeText(r.text, x, y);
     } else {
       ctx.fillStyle = r.color;
       ctx.fillText(r.text, x, y);
+      if (r.border) {
+        const width = ctx.lineWidth;
+        ctx.lineWidth = Math.max(1.5, size * 0.024);
+        ctx.strokeStyle = r.border;
+        ctx.strokeText(r.text, x, y);
+        ctx.lineWidth = width;
+      }
     }
     if (r.rot) ctx.restore();
   }

@@ -32,7 +32,12 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Cadre sucre d'orge : rayures en biais dans une bande ; couleur au choix (« comme le texte » = les deux premières couleurs du jeu, ex. rouge et vert pour Sapin) ; en mode contour, les rayures se colorient. Une couleur de cadre peut être choisie pour tous les styles de cadre.
 - Journée Grognon : uniquement des verts (palette, cadre, dessins).
 - Choisir un univers règle tout d'un coup : police, couleurs, cadre (oui/non, style, couleur), habillage (oui/non, dessins, placement).
-- Polices des univers : Luckiest Guy (Lutins), Freckle Face (Grognon), Henny Penny (Magie), Bungee (Idoles), Titan One (Chiots), Bangers (Héros Araignée). Toutes ont les accents français ; Henny Penny n'a pas « … » (remplacé par trois points).
+- Polices des univers : Titan One (Lutins), Freckle Face (Grognon), Henny Penny (Magie), Bungee (Idoles), Titan One (Chiots), Bangers (Héros Araignée). Toutes ont les accents français ; Henny Penny n'a pas « … » (remplacé par trois points).
+
+## Demandé le 26/11 (3e série)
+- Tri des polices : les thèmes en tête de liste (les préférées) ; Titan One remplace Luckiest Guy (quasi identiques) ; plus de polices rondes (Fredoka reste seulement pour les titres de l'interface) ; manuscrites gardées : Patrick Hand et Shadows Into Light ; Great Vibes retirée (illisible). Restent 15 polices.
+- « Utiliser ma propre police » est rangé dans un petit volet replié en bas de « Style du texte » (on cliquait dessus par erreur).
+- Palettes plus variées, rangées par familles : Simples, Festives, Pastels (Pastel, Macarons, Guimauve), Vives (+ Océan, Forêt, Tropical, Citrouille, Chocolat), Univers. Les pastels gardent leur couleur claire et sont bordés d'un trait plus foncé de la même teinte (contraste du trait ≥ 3:1) ; dessins et cadre prennent ces teintes foncées, les rayures du sucre d'orge restent pastel.
 
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.

@@ -1,6 +1,6 @@
 import { t } from './i18n.js';
 import { messageText, state, subscribe, update } from './state.js';
-import { getFont, loadFont, restoreCustomFonts } from './fonts.js';
+import { DEFAULT_FONT_ID, getFont, loadFont, restoreCustomFonts } from './fonts.js';
 import { buildScene, drawScene } from './render.js';
 import { canShareFile, download, notePngBlob, prefersShare, printSheet, renderNoteCanvas, shareFile } from './sheet.js';
 import { initUI, refreshFonts, syncAll } from './ui.js';
@@ -139,7 +139,7 @@ function init() {
   restoreCustomFonts().then((fonts) => {
     if (fonts.length) refreshFonts();
     // A saved imported font that is gone (site data cleared…): back to the default.
-    if (getFont(state.fontId).id !== state.fontId) update({ fontId: 'luckiest', weight: null });
+    if (getFont(state.fontId).id !== state.fontId) update({ fontId: DEFAULT_FONT_ID, weight: null });
     else if (fonts.length) requestRender();
   });
 }

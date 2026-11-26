@@ -2,36 +2,31 @@
 // latin subset). Imported fonts stay in the browser (IndexedDB).
 import { idbDelete, idbGetAll, idbPut } from './storage.js';
 
-// group: bubble | round | hand | reading | classic | theme
+// group: theme | bubble | hand | reading | classic (sorted with the player on 26/11:
+// theme fonts first, no round fonts, Titan One instead of Luckiest Guy, no Great Vibes).
 // weights: [min, max] for variable fonts; outline: thick enough for the outline mode
 // (for variable fonts, from outlineMin weight); connected: script letters that join;
 // noEllipsis: the font has no "…" glyph (three dots are drawn instead).
 export const FONTS = [
-  { id: 'luckiest', label: 'Luckiest Guy', file: 'luckiest-guy-400.woff2', group: 'bubble', outline: true },
   { id: 'titan', label: 'Titan One', file: 'titan-one-400.woff2', group: 'bubble', outline: true },
   { id: 'chewy', label: 'Chewy', file: 'chewy-400.woff2', group: 'bubble', outline: true },
-  { id: 'fredoka', label: 'Fredoka', file: 'fredoka-vf.woff2', group: 'round', weights: [300, 700], weight: 600, outlineMin: 550 },
-  { id: 'baloo', label: 'Baloo 2', file: 'baloo-2-vf.woff2', group: 'round', weights: [400, 800], weight: 700, outlineMin: 650 },
-  { id: 'comfortaa', label: 'Comfortaa', file: 'comfortaa-vf.woff2', group: 'round', weights: [300, 700], weight: 500, outlineMin: 650 },
+  { id: 'christmas', label: 'Mountains of Christmas', file: 'mountains-of-christmas-700.woff2', group: 'theme', fixedWeight: 700 },
+  { id: 'freckle', label: 'Freckle Face', file: 'freckle-face-400.woff2', group: 'theme', outline: true },
+  { id: 'hennypenny', label: 'Henny Penny', file: 'henny-penny-400.woff2', group: 'theme', noEllipsis: true },
+  { id: 'cinzel', label: 'Cinzel Decorative', file: 'cinzel-decorative-700.woff2', group: 'theme', fixedWeight: 700 },
+  { id: 'bungee', label: 'Bungee', file: 'bungee-400.woff2', group: 'theme', outline: true },
+  { id: 'bangers', label: 'Bangers', file: 'bangers-400.woff2', group: 'theme', outline: true },
   { id: 'patrick', label: 'Patrick Hand', file: 'patrick-hand-400.woff2', group: 'hand' },
-  { id: 'gochi', label: 'Gochi Hand', file: 'gochi-hand-400.woff2', group: 'hand' },
-  { id: 'caveat', label: 'Caveat', file: 'caveat-vf.woff2', group: 'hand', weights: [400, 700], weight: 500 },
   { id: 'shadows', label: 'Shadows Into Light', file: 'shadows-into-light-400.woff2', group: 'hand' },
   { id: 'andika', label: 'Andika', file: 'andika-400.woff2', group: 'reading' },
   { id: 'dancing', label: 'Dancing Script', file: 'dancing-script-vf.woff2', group: 'classic', weights: [400, 700], weight: 600, connected: true },
   { id: 'pacifico', label: 'Pacifico', file: 'pacifico-400.woff2', group: 'classic', connected: true },
   { id: 'lobster', label: 'Lobster', file: 'lobster-400.woff2', group: 'classic', connected: true },
-  { id: 'greatvibes', label: 'Great Vibes', file: 'great-vibes-400.woff2', group: 'classic', connected: true },
   { id: 'playfair', label: 'Playfair Display', file: 'playfair-display-vf.woff2', group: 'classic', weights: [400, 900], weight: 700, outlineMin: 850 },
-  { id: 'christmas', label: 'Mountains of Christmas', file: 'mountains-of-christmas-700.woff2', group: 'theme', fixedWeight: 700 },
-  { id: 'cinzel', label: 'Cinzel Decorative', file: 'cinzel-decorative-700.woff2', group: 'theme', fixedWeight: 700 },
-  { id: 'bangers', label: 'Bangers', file: 'bangers-400.woff2', group: 'theme', outline: true },
-  { id: 'freckle', label: 'Freckle Face', file: 'freckle-face-400.woff2', group: 'theme', outline: true },
-  { id: 'hennypenny', label: 'Henny Penny', file: 'henny-penny-400.woff2', group: 'theme', noEllipsis: true },
-  { id: 'bungee', label: 'Bungee', file: 'bungee-400.woff2', group: 'theme', outline: true },
 ];
 
-export const FONT_GROUPS = ['bubble', 'round', 'hand', 'reading', 'classic', 'theme', 'custom'];
+export const DEFAULT_FONT_ID = 'titan';
+export const FONT_GROUPS = ['theme', 'bubble', 'hand', 'reading', 'classic', 'custom'];
 export const FALLBACK_STACK = '"Trebuchet MS", "Segoe UI", sans-serif';
 
 const customFonts = [];

@@ -3,8 +3,9 @@ import { t } from './i18n.js';
 import { SIZE_MAX_PT, SIZE_MIN_PT, addElf, messageText, removeElf, state, toggleSigner, update } from './state.js';
 import { formatNames } from './signature.js';
 import { UNIVERSES, universePatch } from './universes.js';
-import { PALETTES, resolveColors } from './palettes.js';
+import { PALETTES, PALETTE_GROUPS, pastelLine, resolveColors, resolveInk } from './palettes.js';
 import {
+  DEFAULT_FONT_ID,
   FONT_GROUPS,
   allFonts,
   effectiveWeight,
@@ -231,7 +232,7 @@ function fontButton(font) {
       'aria-label': t('style.removeFont'),
       onclick: async () => {
         await removeCustomFont(font.id);
-        if (state.fontId === font.id) update({ fontId: 'luckiest', weight: null });
+        if (state.fontId === font.id) update({ fontId: DEFAULT_FONT_ID, weight: null });
         renderFontGrid();
       },
     },
@@ -260,16 +261,25 @@ function syncFontButtons() {
 
 function paletteSwatches(p) {
   const colors = p.id === 'single' ? [ensureContrast(state.singleColor)] : p.id === 'custom' ? resolveColors({ ...state, paletteId: 'custom' }) : p.colors;
-  return h('span', { class: 'swatches' }, ...colors.slice(0, 6).map((c) => h('span', { class: 'swatch', style: { background: c } })));
+  return h(
+    'span',
+    { class: 'swatches' },
+    ...colors.slice(0, 6).map((c) => h('span', { class: 'swatch', style: { background: c, boxShadow: p.pastel ? `inset 0 0 0 2px ${pastelLine(c)}` : '' } })),
+  );
 }
 
 function colorsField() {
-  const grid = h('div', { class: 'palette-grid' });
-  const paletteButtons = PALETTES.map((p) => {
-    const b = h('button', { type: 'button', class: 'palette-btn', onclick: () => update({ paletteId: p.id }) }, paletteSwatches(p), h('span', { class: 'palette-name' }, t(`palette.${p.id}`)));
-    grid.append(b);
-    return [p, b];
-  });
+  const grid = h('div', { class: 'palette-groups' });
+  const paletteButtons = [];
+  for (const group of PALETTE_GROUPS) {
+    const sub = h('div', { class: 'palette-grid' });
+    for (const p of PALETTES.filter((x) => x.group === group)) {
+      const b = h('button', { type: 'button', class: 'palette-btn', onclick: () => update({ paletteId: p.id }) }, paletteSwatches(p), h('span', { class: 'palette-name' }, t(`palette.${p.id}`)));
+      sub.append(b);
+      paletteButtons.push([p, b]);
+    }
+    grid.append(h('div', { class: 'font-group' }, h('div', { class: 'field-label small' }, t(`palette.group.${group}`)), sub));
+  }
   onSync(() => {
     for (const [p, b] of paletteButtons) {
       b.setAttribute('aria-pressed', String(state.paletteId === p.id));
@@ -328,6 +338,7 @@ function colorsField() {
   });
   const customRow = showIf(customList, () => state.paletteId === 'custom');
   const hint = showIf(h('p', { class: 'hint' }, t('style.contrastHint')), () => state.paletteId === 'single' || state.paletteId === 'custom');
+  const pastelHint = showIf(h('p', { class: 'hint' }, t('style.pastelHint')), () => resolveInk(state).pastel);
 
   const multi = () => resolveColors(state).length > 1;
   const mode = showIf(
@@ -350,7 +361,7 @@ function colorsField() {
     multi,
   );
 
-  return field('style.colors', grid, singleRow, customRow, hint, mode);
+  return field('style.colors', grid, singleRow, customRow, hint, pastelHint, mode);
 }
 
 function styleSection() {
@@ -403,18 +414,22 @@ function styleSection() {
     'style',
     'section.style',
     false,
-    field(
-      'style.font',
-      fontGroups,
-      h('div', { class: 'row wrap' }, h('button', { type: 'button', class: 'btn', onclick: () => fileInput.click() }, `⬆ ${t('style.importFont')}`), fileInput),
-      h('p', { class: 'hint' }, t('style.importHint')),
-      importMsg,
-    ),
+    field('style.font', fontGroups),
     weight,
     colorsField(),
     render,
     toggle('style.uppercase', () => state.uppercase, (v) => update({ uppercase: v })),
     toggle('style.handmade', () => state.handmade, (v) => update({ handmade: v })),
+    // Importing a font is rare: tucked away in a closed panel at the very end,
+    // so that it is never tapped by mistake while picking a font.
+    h(
+      'details',
+      { class: 'sub-panel' },
+      h('summary', {}, t('style.ownFont')),
+      h('p', { class: 'hint' }, t('style.importHint')),
+      h('div', { class: 'row wrap' }, h('button', { type: 'button', class: 'btn', onclick: () => fileInput.click() }, t('style.importFont')), fileInput),
+      importMsg,
+    ),
   );
   // Font previews need every font: load them when the section is first opened.
   sec.addEventListener('toggle', () => {
@@ -500,7 +515,7 @@ function setPreview(set) {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, c.width, c.height);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const colors = resolveColors(state);
+    const colors = resolveInk(state).lines;
     if (set.web) drawDecorItem(ctx, { type: 'web', x: 3, y: 3, r: 34, corner: 'tl', color: colors[0] });
     else drawDecorItem(ctx, { type: 'icon', icon: set.icons[0], x: size / 2, y: size / 2, size: 30, rot: 0, color: colors[0], stroke: 2 });
   };

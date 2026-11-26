@@ -4,7 +4,7 @@
 export const UNIVERSES = [
   {
     id: 'lutins',
-    palette: 'sapin', font: 'luckiest',
+    palette: 'sapin', font: 'titan',
     decor: true, decorSet: 'sapins', placement: 'corners',
     frame: false, frameStyle: 'candy', frameColor: 'auto',
   },

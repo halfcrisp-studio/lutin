@@ -35,7 +35,7 @@ export function getDecorSet(id) {
  * Frame around the sheet. `colors` are the frame colors (the text palette or the
  * color picked for the frame). Returns the frame and the inner area left for content.
  */
-export function buildFrame({ page, short, style, colors, set, seed, outline }) {
+export function buildFrame({ page, short, style, colors, fills, set, seed, outline }) {
   // At least 7 mm from the edge: home printers cannot print the last few millimeters.
   const inset = Math.max(short * 0.035, 7 * MM);
   const rect = { x: inset, y: inset, w: page.w - 2 * inset, h: page.h - 2 * inset };
@@ -44,7 +44,10 @@ export function buildFrame({ page, short, style, colors, set, seed, outline }) {
   if (style === 'candy') {
     // Candy cane: diagonal stripes in a band, colored stripes between white ones.
     frame.band = short * 0.024;
-    frame.stripes = colors.slice(0, 2);
+    // Stripes take the fill colors (pastels stay soft), edges the line color.
+    frame.stripes = (fills || colors).slice(0, 2);
+    frame.stripeLines = colors.slice(0, 2);
+    frame.edge = colors[0];
     frame.outline = !!outline;
     const pad = frame.band + short * 0.035;
     frame.inner = { x: rect.x + pad, y: rect.y + pad, w: rect.w - 2 * pad, h: rect.h - 2 * pad };
@@ -276,18 +279,19 @@ function drawCandy(ctx, f) {
     ctx.lineTo(x0 + stripe + rect.h, rect.y + rect.h);
     ctx.lineTo(x0 + rect.h, rect.y + rect.h);
     ctx.closePath();
-    const color = f.stripes[i++ % f.stripes.length];
+    const n = i++;
     if (f.outline) {
-      ctx.strokeStyle = color;
+      const lines = f.stripeLines || f.stripes;
+      ctx.strokeStyle = lines[n % lines.length];
       ctx.stroke();
     } else {
-      ctx.fillStyle = color;
+      ctx.fillStyle = f.stripes[n % f.stripes.length];
       ctx.fill();
     }
   }
   ctx.restore();
   ctx.save();
-  ctx.strokeStyle = f.stripes[0];
+  ctx.strokeStyle = f.edge || f.stripes[0];
   ctx.lineWidth = f.lw * 0.6;
   roundRectPath(ctx, rect, radius);
   ctx.stroke();

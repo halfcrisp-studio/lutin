@@ -1,7 +1,7 @@
 // Key logic checks, run in a browser: open dev/tests.html (the page prints ALL OK or the failures).
 import { layoutText, tokenize } from '../js/layout.js';
 import { formatNames, signatureUnits } from '../js/signature.js';
-import { PALETTES } from '../js/palettes.js';
+import { PALETTES, pastelLine } from '../js/palettes.js';
 import { colorSequence, contrastWithWhite, ensureContrast } from '../js/color.js';
 import { renderTemplate } from '../js/templates.js';
 
@@ -38,7 +38,8 @@ check('three names', formatNames(['A', 'B', 'C']) === 'A, B et C');
 check('signature units', signatureUnits(['Lutin Farceur', 'Biscotte']).join('|') === 'Signé Lutin Farceur|et Biscotte');
 
 // Colors.
-for (const p of PALETTES) for (const c of p.colors || []) check(`contrast ${p.id} ${c}`, contrastWithWhite(c) >= 3);
+// Pastel fills are light on purpose: their border (pastelLine) must reach the contrast.
+for (const p of PALETTES) for (const c of p.colors || []) check(`contrast ${p.id} ${c}`, contrastWithWhite(p.pastel ? pastelLine(c) : c) >= 3);
 check('light color darkened', contrastWithWhite(ensureContrast('#ffee58')) >= 3);
 const next = colorSequence(['#a00000', '#00a000', '#0000a0'], 42);
 let prev = '';
