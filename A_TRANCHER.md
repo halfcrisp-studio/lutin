@@ -12,6 +12,7 @@
 - Fonctions : partage d'un modèle par lien (sans serveur), chasse au trésor (indices numérotés à découper), idée de bêtise + mot du soir, mode hors ligne, version anglaise (US Letter).
 - Autres usages : mot de boîte à goûter, diplômes, bons cadeaux, réponse du Père Noël.
 - Reco : Petite Souris, Anniversaire, Pirates et partage par lien d'abord ; puis chasse au trésor ; puis banque d'idées et de messages.
+- Usage réel (recherche du 26/11) : à Pâques, les parents impriment surtout des indices de chasse aux œufs (en France, ce sont les cloches qui apportent les œufs ; le lapin est plutôt alsacien et anglo-saxon), donc Pâques passe par la chasse au trésor. Les mots de la Petite Souris sont plus rares en France (aucun modèle français trouvé), donc un petit mot ou un « certificat de dent » peu coûteux, à tester.
 
 ## Tranché
 Voir [DECISIONS.md](DECISIONS.md).
