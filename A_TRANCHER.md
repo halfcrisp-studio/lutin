@@ -9,6 +9,15 @@
 
 7. **Printables lutins (V1.2)** : ordre proposé : billet d'arrivée + certificat, avis de recherche, mini-panneaux, bons du lutin ; puis départ du 24 (lettre + diplôme), grille des 24 soirs pour les parents, accessoires taille lutin.
 
+8. **Boîte à outils du lutin (proposée le 27/11)**, 3e choix dans « Je crée » :
+   - idée du soir (banque d'environ 60 bêtises, filtres temps / ménage / matériel, mot prêt en un clic) ;
+   - SOS « j'ai oublié » (idées sans préparation + excuses du lutin) ;
+   - lettres des moments clés (arrivée avec les règles, lutin touché, vacances, départ du 24) ;
+   - rappels dans l'agenda (fichier calendrier, 24 rappels à 21 h) ;
+   - plan des 24 soirs avec liste de courses ;
+   - accessoires à imprimer.
+   Questions : je rédige tout le contenu et le joueur relit ? Passe avant la chasse au trésor ? Reco : oui et oui (idée du soir + SOS d'abord).
+
 ## Pistes pour élargir (proposées le 26/11, rien de choisi)
 - Univers toute l'année : Petite Souris, Anniversaire, Lapin de Pâques, Halloween, Saint-Nicolas, Galette des rois, Poisson d'avril ; thèmes d'enfants : Pirates, Dinosaures, Espace, Sirènes, Dragons et chevaliers.
 - Fonctions : partage d'un modèle par lien (sans serveur), chasse au trésor (indices numérotés à découper), idée de bêtise + mot du soir, mode hors ligne, version anglaise (US Letter).
