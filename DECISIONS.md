@@ -73,7 +73,7 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 ## Boîte à outils du lutin (27/11, passe avant la chasse au trésor)
 - 3e choix de « Je crée » : « La boîte à outils du lutin », en quatre onglets. Les textes sont proposés puis relus par le joueur.
 - Idée du soir : 53 bêtises et mises en scène, filtres temps (2/10/30 min), ménage (aucun/un peu), matériel ; tirage « Une autre idée » ; « Marquer comme faite » (gardé dans le navigateur) et « Cacher les idées déjà faites ».
-- SOS « j'ai oublié » : 13 idées en 30 secondes sans rien, 8 excuses du lutin.
+- SOS « j'ai oublié » : 12 idées en 30 secondes sans rien, 8 excuses du lutin.
 - Lettres : arrivée (avec la règle « ne me touche pas »), lutin touché (cannelle magique), départ en vacances, départ du 24.
 - Rappels : un fichier calendrier avec un rappel « Pense au lutin ! » chaque soir jusqu'au 24 décembre (20, 21 ou 22 h), rien n'est envoyé.
 - Chaque texte a ses formes un ou plusieurs lutins (lutins cochés) et un ou plusieurs enfants (« Le mot s'adresse à »), sans accord selon le genre. « Modifier le mot » ouvre l'éditeur de mot avec le texte.
