@@ -16,7 +16,7 @@
    - rappels dans l'agenda (fichier calendrier, 24 rappels à 21 h) ;
    - plan des 24 soirs avec liste de courses ;
    - accessoires à imprimer.
-   Questions : je rédige tout le contenu et le joueur relit ? Passe avant la chasse au trésor ? Reco : oui et oui (idée du soir + SOS d'abord).
+   Faits le 27/11 : idée du soir, SOS, lettres, rappels. Reste : plan des 24 soirs + liste de courses, accessoires. Textes à relire par le joueur.
 
 ## Pistes pour élargir (proposées le 26/11, rien de choisi)
 - Univers toute l'année : Petite Souris, Anniversaire, Lapin de Pâques, Halloween, Saint-Nicolas, Galette des rois, Poisson d'avril ; thèmes d'enfants : Pirates, Dinosaures, Espace, Sirènes, Dragons et chevaliers.

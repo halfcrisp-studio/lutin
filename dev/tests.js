@@ -4,6 +4,8 @@ import { formatNames, signatureUnits } from '../js/signature.js';
 import { PALETTES, pastelLine } from '../js/palettes.js';
 import { colorSequence, contrastWithWhite, ensureContrast } from '../js/color.js';
 import { renderTemplate } from '../js/templates.js';
+import { EXCUSES, IDEAS, LETTERS } from '../js/toolbox-fr.js';
+import { remindersIcs } from '../js/toolbox.js';
 
 const failures = [];
 const check = (name, ok) => {
@@ -53,6 +55,17 @@ check('no color twice in a row', !repeat);
 
 // Templates (future message bank).
 check('template plural', renderTemplate("{s:j'ai|nous avons} un cadeau pour {d:toi|vous}", { signers: 2, recipients: 1 }) === 'nous avons un cadeau pour toi');
+
+// Toolbox texts: every form (1 or several elves x 1 or several children) renders cleanly.
+for (const item of [...IDEAS, ...EXCUSES, ...LETTERS]) {
+  for (const signers of [1, 2]) for (const recipients of [1, 2]) {
+    const text = renderTemplate(item.msg, { signers, recipients });
+    if (/[{}|]/.test(text)) failures.push(`template ${item.id} s${signers} d${recipients}: ${text}`);
+  }
+}
+const ics = remindersIcs({ hour: 21, now: new Date(2026, 10, 27), title: 'T', description: 'D' });
+check('reminders from 1 December, 24 days', ics.count === 24 && ics.text.includes('DTSTART:20261201T210000') && ics.text.includes('COUNT=24'));
+check('reminders from today in December', remindersIcs({ hour: 20, now: new Date(2026, 11, 10), title: 'T', description: 'D' }).count === 15);
 
 const out = document.getElementById('out');
 out.textContent = failures.length ? `FAIL\n${failures.join('\n')}` : 'ALL OK';

@@ -6,6 +6,7 @@ import { canShareFile, download, notePngBlob, prefersShare, printSheet, renderNo
 import { initUI, refreshFonts, syncAll } from './ui.js';
 import { DPI } from './formats.js';
 import { initThemeToggle } from './theme.js';
+import { toolMessage } from './toolbox.js';
 
 const preview = document.getElementById('preview');
 const previewCtx = preview.getContext('2d');
@@ -20,6 +21,8 @@ let frameId = 0;
 let timerId = 0;
 
 function sceneState() {
+  // The toolbox shows its ready-made message as a note.
+  if (state.mode === 'tools') return { ...state, mode: 'note', text: toolMessage(state) };
   return { ...state, text: messageText() };
 }
 

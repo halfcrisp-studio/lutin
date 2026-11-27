@@ -15,6 +15,12 @@ Vérifié sans appareil : rendu des 6 univers et des options (planche `dev/galle
 - Enregistrer l'image : une seule carte, à envoyer par message.
 - Fermer et rouvrir : les champs de l'invitation sont revenus à l'exemple (rien n'est gardé).
 
+## Séance 1 ter : boîte à outils (10 min)
+- « La boîte à outils du lutin » : filtrer (2 min, aucun ménage), « Une autre idée », imprimer le mot.
+- Cocher deux lutins puis « un enfant » : les phrases changent de forme (nous / tu).
+- Rappels : sur iPhone et Android, le fichier s'ouvre dans l'agenda et ajoute les rappels jusqu'au 24.
+- Relire les textes (idées, excuses, lettres) : ton, fautes, idées à retirer.
+
 ## Séance 2 : vraie imprimante (10 min)
 - A4 portrait avec cadre festif : rien n'est rogné sur les bords, pas d'URL ni de date imprimées.
 - A5 en deux exemplaires : les deux moitiés se découpent au trait de coupe.

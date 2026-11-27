@@ -70,6 +70,14 @@ Questions ouvertes : voir [A_TRANCHER.md](A_TRANCHER.md).
 - Dessins ajoutés : coffre, drapeau pirate, ancre, tête de mort, boussole, palmier, carte ; dinosaure, œuf de dino, volcan ; fusée, planète, soucoupe, astronaute ; coquillages, étoile de mer, poisson, vagues ; dragon, épée ; oreiller, nounours, lit ; boule disco, disque (IconOven, Lucide Lab, IconMind, UIX Icons : licences MIT ou ISC).
 - Polices : Orbitron n'a pas « » (remplacés par "), Henny Penny n'a pas « … » (remplacé par ...).
 
+## Boîte à outils du lutin (27/11, passe avant la chasse au trésor)
+- 3e choix de « Je crée » : « La boîte à outils du lutin », en quatre onglets. Les textes sont proposés puis relus par le joueur.
+- Idée du soir : 53 bêtises et mises en scène, filtres temps (2/10/30 min), ménage (aucun/un peu), matériel ; tirage « Une autre idée » ; « Marquer comme faite » (gardé dans le navigateur) et « Cacher les idées déjà faites ».
+- SOS « j'ai oublié » : 13 idées en 30 secondes sans rien, 8 excuses du lutin.
+- Lettres : arrivée (avec la règle « ne me touche pas »), lutin touché (cannelle magique), départ en vacances, départ du 24.
+- Rappels : un fichier calendrier avec un rappel « Pense au lutin ! » chaque soir jusqu'au 24 décembre (20, 21 ou 22 h), rien n'est envoyé.
+- Chaque texte a ses formes un ou plusieurs lutins (lutins cochés) et un ou plusieurs enfants (« Le mot s'adresse à »), sans accord selon le genre. « Modifier le mot » ouvre l'éditeur de mot avec le texte.
+
 ## Technique
 - Site statique sans build (Node absent du PC) : HTML, CSS, modules JavaScript natifs.
 - Un seul calcul de mise en page à 300 dpi : aperçu, impression et PNG sont la même scène, donc les mêmes retours à la ligne. Les mots ne sont jamais coupés ; la ponctuation française espacée reste collée à son mot ; un nom de lutin n'est jamais coupé.

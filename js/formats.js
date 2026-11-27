@@ -7,7 +7,7 @@ export const FORMATS = Object.keys(SIZES_MM);
 
 // Formats offered per kind of sheet: notes stay at A5 or larger (player's rule),
 // invitations are cards (A6 = four per A4 sheet).
-export const FORMATS_BY_MODE = { note: ['a4', 'a5'], invite: ['a6', 'a5', 'a4'] };
+export const FORMATS_BY_MODE = { note: ['a4', 'a5'], invite: ['a6', 'a5', 'a4'], tools: ['a4', 'a5'] };
 
 // How the A4 print sheet is divided for each format (columns x rows).
 export const SHEET_CELLS = { a4: [1, 1], a5: [1, 2], a6: [2, 2] };

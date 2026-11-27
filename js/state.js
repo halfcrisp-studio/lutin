@@ -13,8 +13,18 @@ export const MAX_COLLECTION = 40;
 
 export const DEFAULTS = {
   ...universePatch('lutins'),
-  mode: 'note', // 'note' (message from the elves) or 'invite' (party invitation)
+  mode: 'note', // 'note' (message from the elves), 'invite' (party invitation) or 'tools' (elf toolbox)
   occasion: 'anniversaire', // kind of party for invitations
+  // Elf toolbox
+  toolsTab: 'idea',
+  ideaId: null,
+  ideaFilters: { time: 'all', mess: 'all', mat: 'all' },
+  hideDone: false,
+  doneIdeas: [],
+  sosId: null,
+  letterId: 'arrivee',
+  recipients: 2, // 1 child or several (forms of the ready-made messages)
+  reminderHour: 21,
   // The family's elves; the ones in `signers` sign today's note, in that order.
   collection: ['Lutin Farceur', 'Biscotte'],
   signers: ['Lutin Farceur'],
@@ -53,12 +63,26 @@ function migrate(s) {
 
 function sanitize(s) {
   const d = DEFAULTS;
-  const mode = oneOf(s.mode, ['note', 'invite'], d.mode);
+  const mode = oneOf(s.mode, ['note', 'invite', 'tools'], d.mode);
+  const f = s.ideaFilters && typeof s.ideaFilters === 'object' ? s.ideaFilters : {};
   const collection = (names(s.collection) || d.collection).slice(0, MAX_COLLECTION);
   const signers = (names(s.signers) || d.signers).filter((n) => collection.includes(n));
   return {
     mode,
     occasion: oneOf(s.occasion, OCCASIONS, d.occasion),
+    toolsTab: oneOf(s.toolsTab, ['idea', 'sos', 'letters', 'reminders'], d.toolsTab),
+    ideaId: typeof s.ideaId === 'string' ? s.ideaId : null,
+    ideaFilters: {
+      time: oneOf(f.time, ['all', '2', '10', '30'], 'all'),
+      mess: oneOf(f.mess, ['all', '0', '1'], 'all'),
+      mat: typeof f.mat === 'string' ? f.mat : 'all',
+    },
+    hideDone: !!s.hideDone,
+    doneIdeas: Array.isArray(s.doneIdeas) ? s.doneIdeas.filter((x) => typeof x === 'string').slice(0, 200) : [],
+    sosId: typeof s.sosId === 'string' ? s.sosId : null,
+    letterId: typeof s.letterId === 'string' ? s.letterId : d.letterId,
+    recipients: s.recipients === 1 ? 1 : 2,
+    reminderHour: oneOf(s.reminderHour, [20, 21, 22], d.reminderHour),
     universe: oneOf(s.universe, UNIVERSES.map((u) => u.id), d.universe),
     paletteId: oneOf(s.paletteId, PALETTES.map((p) => p.id), d.paletteId),
     fontId: typeof s.fontId === 'string' ? s.fontId : d.fontId,
@@ -125,7 +149,7 @@ export function setMode(mode) {
     patch.fillSheet = true;
     if (getUniverse(state.universe).group === 'noel') Object.assign(patch, universePatch(state.occasion));
   } else {
-    if (!FORMATS_BY_MODE.note.includes(state.format)) patch.format = 'a4';
+    if (!FORMATS_BY_MODE[mode].includes(state.format)) patch.format = 'a4';
     patch.fillSheet = false;
     if (OCCASIONS.includes(state.universe)) Object.assign(patch, universePatch('lutins'));
   }
